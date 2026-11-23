@@ -3,8 +3,8 @@
 > **Proyecto:** Simulación de un servidor CI/CD M/M/1 y un SOC con prioridades y buffer finito  
 > **Repositorio:** `AngBan2x/simulacion-colas` (público)  
 > **Documento de referencia:** `Proyecto_simulacion.md`  
-> **Estado global:** 11,3 % — F0 en curso (16/19), F1 pendiente  
-> **Fase actual:** F0 — Preparación del repositorio  
+> **Estado global:** 13,5 % — F0 completada, F1 pendiente  
+> **Fase actual:** F1 — Motor de eventos discretos  
 > **Última actualización:** 2026-11-22  
 > **Licencia:** MIT  
 > **Informe:** LaTeX compilado a PDF (MiKTeX autorizado; instalación pendiente en F5.1)  
@@ -71,7 +71,7 @@
 
 | Fase | Descripción | Estado | Tareas | Completadas | Progreso |
 |---|---|---|---:|---:|---:|
-| F0 | Preparación del repositorio | En curso | 19 | 16 | 84,2 % |
+| F0 | Preparación del repositorio | Completada | 19 | 19 | 100 % |
 | F1 | Motor de eventos discretos | Pendiente | 17 | 0 | 0 % |
 | F2 | Modelo M/M/1 | Pendiente | 15 | 0 | 0 % |
 | F3 | Simulador del SOC | Pendiente | 24 | 0 | 0 % |
@@ -80,7 +80,7 @@
 | F6 | Pruebas y aseguramiento de calidad | Pendiente | 8 | 0 | 0 % |
 | F7 | Documentación final | Pendiente | 7 | 0 | 0 % |
 | F8 | Publicación en GitHub y cierre | Pendiente | 6 | 0 | 0 % |
-| **Total** |  |  | **141** | **16** | **11,3 %** |
+| **Total** |  |  | **141** | **19** | **13,5 %** |
 
 ---
 
@@ -117,9 +117,9 @@
 
 ### F0.4 — Publicación inicial
 
-- [~] Crear el repositorio público con `gh repo create`.
-- [ ] Configurar `origin` y subir la rama `main`.
-- [ ] Verificar que el repositorio remoto sea accesible y que el primer commit esté publicado.
+- [x] Crear el repositorio público con `gh repo create`.
+- [x] Configurar `origin` y subir la rama `main`.
+- [x] Verificar que el repositorio remoto sea accesible y que el primer commit esté publicado.
 
 **Criterio de aceptación F0:** el repositorio local existe, el entorno virtual funciona, los archivos base están creados y `git status` no incluye archivos temporales ni secretos. El repositorio remoto está creado y accesible.
 
@@ -379,7 +379,9 @@
 | Fecha | Fase / tarea | Cambio | Responsable | Evidencia / commit |
 |---|---|---|---|---|
 | 2026-11-22 | Planificación | Plan aprobado y decisiones confirmadas | Equipo | Este documento |
-|  |  |  |  |  |
+| 2026-11-22 | F0.1–F0.2 | Entorno virtual, dependencias y verificación inicial | Equipo | `e93abbc` |
+| 2026-11-22 | F0.3 | Estructura, README, `PLAN.md`, `AGENTS.md`, licencia y configuración | Equipo | `e93abbc` |
+| 2026-11-22 | F0.4 | Repositorio público creado y primer push | Equipo | https://github.com/AngBan2x/simulacion-colas |
 |  |  |  |  |  |
 
 ---
