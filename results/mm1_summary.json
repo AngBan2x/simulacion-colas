@@ -1,0 +1,85 @@
+{
+  "model": "M/M/1",
+  "parameters": {
+    "arrival_rate": 0.25,
+    "service_rate": 0.3333333333333333,
+    "rho": 0.75,
+    "units": "minutos"
+  },
+  "design": {
+    "replications": 50,
+    "base_seed": 1,
+    "warmup": 1000.0,
+    "horizon": 30000.0,
+    "measured_window": 29000.0
+  },
+  "analytical": {
+    "rho": 0.75,
+    "L": 3.0,
+    "Lq": 2.25,
+    "W": 12.000000000000004,
+    "Wq": 9.000000000000002
+  },
+  "metrics": {
+    "L": {
+      "mean": 3.046602115995292,
+      "stdev": 0.2651810410147221,
+      "half_width": 0.07536361799346779,
+      "lower": 2.9712384980018243,
+      "upper": 3.12196573398876,
+      "relative_error": 0.02473694139375575,
+      "analytical": 3.0,
+      "contains_analytical": true,
+      "n": 50
+    },
+    "Lq": {
+      "mean": 2.296127234354106,
+      "stdev": 0.2559711409577559,
+      "half_width": 0.07274619335784806,
+      "lower": 2.223381040996258,
+      "upper": 2.368873427711954,
+      "relative_error": 0.03168212643856879,
+      "analytical": 2.25,
+      "contains_analytical": true,
+      "n": 50
+    },
+    "W": {
+      "mean": 12.204454186874665,
+      "stdev": 1.0019033917319793,
+      "half_width": 0.28473779344073336,
+      "lower": 11.919716393433932,
+      "upper": 12.489191980315399,
+      "relative_error": 0.023330645441477907,
+      "analytical": 12.000000000000004,
+      "contains_analytical": true,
+      "n": 50
+    },
+    "Wq": {
+      "mean": 9.197254673484778,
+      "stdev": 0.9806688409342708,
+      "half_width": 0.2787030008761603,
+      "lower": 8.918551672608618,
+      "upper": 9.475957674360938,
+      "relative_error": 0.030302846965806762,
+      "analytical": 9.000000000000002,
+      "contains_analytical": true,
+      "n": 50
+    },
+    "utilization": {
+      "mean": 0.7504748816411841,
+      "stdev": 0.012364513363359838,
+      "half_width": 0.003513955817601777,
+      "lower": 0.7469609258235823,
+      "upper": 0.753988837458786,
+      "relative_error": 0.004682309699582809,
+      "analytical": 0.75,
+      "contains_analytical": true,
+      "n": 50
+    }
+  },
+  "little": {
+    "L": 0.9999968379912748,
+    "Lq": 0.9999776949374619
+  },
+  "all_intervals_contain_analytical": true
+}

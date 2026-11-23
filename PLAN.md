@@ -3,8 +3,8 @@
 > **Proyecto:** Simulación de un servidor CI/CD M/M/1 y un SOC con prioridades y buffer finito<br>
 > **Repositorio:** `AngBan2x/simulacion-colas` (público)<br>
 > **Documento de referencia:** `Proyecto_simulacion.md`<br>
-> **Estado global:** 19,0 % — F0 completada, F1 en curso (6/17), preparación de LaTeX iniciada<br>
-> **Fase actual:** F1 — Motor de eventos discretos<br>
+> **Estado global:** 37,3 % — F0, F1 y F2 completadas; F5 con preparación de LaTeX<br>
+> **Fase actual:** F2 completada; próximo paso F3 — Simulador del SOC (no iniciado)<br>
 > **Vista rápida de pendientes:** [`TODO.md`](TODO.md)<br>
 > **Última actualización:** 2026-11-23<br>
 > **Licencia:** MIT<br>
@@ -73,15 +73,15 @@
 | Fase | Descripción | Estado | Tareas | Completadas | Progreso |
 |---|---|---|---:|---:|---:|
 | F0 | Preparación del repositorio | Completada | 19 | 19 | 100 % |
-| F1 | Motor de eventos discretos | En curso | 17 | 6 | 35,3 % |
-| F2 | Modelo M/M/1 | Pendiente | 15 | 0 | 0 % |
+| F1 | Motor de eventos discretos | Completada | 17 | 17 | 100 % |
+| F2 | Modelo M/M/1 | Completada | 15 | 15 | 100 % |
 | F3 | Simulador del SOC | Pendiente | 24 | 0 | 0 % |
 | F4 | Experimentos y escenarios | Pendiente | 23 | 0 | 0 % |
 | F5 | Informe técnico en LaTeX y PDF | En curso | 23 | 2 | 8,7 % |
 | F6 | Pruebas y aseguramiento de calidad | Pendiente | 8 | 0 | 0 % |
 | F7 | Documentación final | Pendiente | 7 | 0 | 0 % |
 | F8 | Publicación en GitHub y cierre | Pendiente | 6 | 0 | 0 % |
-| **Total** |  |  | **142** | **27** | **19,0 %** |
+| **Total** |  |  | **142** | **53** | **37,3 %** |
 
 ---
 
@@ -139,27 +139,27 @@
 
 ### F1.2 — Generadores aleatorios
 
-- [ ] Implementar muestreo exponencial reproducible.
-- [ ] Implementar muestreo uniforme reproducible.
-- [ ] Implementar muestreo Weibull con forma y escala.
-- [ ] Separar los flujos aleatorios de llegadas y servicios.
-- [ ] Documentar la convención de unidades en minutos.
+- [x] Implementar muestreo exponencial reproducible (`src/simulacion_colas/distributions.py`).
+- [x] Implementar muestreo uniforme reproducible (`src/simulacion_colas/distributions.py`).
+- [x] Implementar muestreo Weibull con forma y escala (`src/simulacion_colas/distributions.py`).
+- [x] Separar los flujos aleatorios de llegadas y servicios (`spawn_streams`).
+- [x] Documentar la convención de unidades en minutos (`distributions.py` y `README.md`).
 
 ### F1.3 — Acumuladores y estadística
 
-- [ ] Implementar acumuladores de área para promedios ponderados por tiempo.
-- [ ] Implementar medias, desviación estándar e IC95 % con distribución t.
-- [ ] Implementar error relativo y ratios de Little.
-- [ ] Implementar comparación de diferencias pareadas entre escenarios.
+- [x] Implementar acumuladores de área para promedios ponderados por tiempo (`stats.py`).
+- [x] Implementar medias, desviación estándar e IC95 % con distribución t (`stats.py`).
+- [x] Implementar error relativo y ratios de Little (`stats.py`).
+- [x] Implementar comparación de diferencias pareadas entre escenarios (`paired_difference`).
 
 ### F1.4 — Pruebas iniciales
 
 - [x] Probar el orden de eventos (`tests/test_engine.py`).
 - [x] Probar el desempate determinista (`tests/test_engine.py`).
-- [ ] Probar reproducibilidad con semillas.
-- [ ] Probar que las medias muestrales de las distribuciones sean razonables.
+- [x] Probar reproducibilidad con semillas (`tests/test_distributions.py`, `tests/test_engine.py`).
+- [x] Probar que las medias muestrales de las distribuciones sean razonables (`tests/test_distributions.py`).
 
-**Criterio de aceptación F1:** el motor procesa eventos en orden, es reproducible y sus utilidades estadísticas están cubiertas por pruebas.
+**Criterio de aceptación F1:** el motor procesa eventos en orden, es reproducible y sus utilidades estadísticas están cubiertas por pruebas. **Cumplido:** 40 pruebas en verde; distribuciones y estadística verificadas.
 
 ---
 
@@ -169,29 +169,29 @@
 
 ### F2.1 — Parámetros y fórmulas
 
-- [ ] Implementar `λ = 0,25/min`, `μ = 1/3/min` y `ρ = 0,75`.
-- [ ] Implementar `L`, `Lq`, `W` y `Wq` analíticos.
-- [ ] Documentar la justificación del modelo M/M/1.
+- [x] Implementar `λ = 0,25/min`, `μ = 1/3/min` y `ρ = 0,75` (`mm1.py`).
+- [x] Implementar `L`, `Lq`, `W` y `Wq` analíticos (`MM1Analytical`).
+- [x] Documentar la justificación del modelo M/M/1 (`README.md`, docstrings de `mm1.py`; desarrollo completo en el informe F5).
 
 ### F2.2 — Simulador
 
-- [ ] Implementar llegadas exponenciales.
-- [ ] Implementar servicio exponencial.
-- [ ] Implementar cola FIFO infinita.
-- [ ] Registrar tiempos de llegada, inicio de servicio y salida.
-- [ ] Medir `L`, `Lq`, `W` y `Wq`.
-- [ ] Implementar warm-up configurable.
+- [x] Implementar llegadas exponenciales (`Exponential(λ)`).
+- [x] Implementar servicio exponencial (`Exponential(μ)`).
+- [x] Implementar cola FIFO infinita (`deque`).
+- [x] Registrar tiempos de llegada, inicio de servicio y salida.
+- [x] Medir `L`, `Lq`, `W` y `Wq` con acumuladores y muestras por trabajo.
+- [x] Implementar warm-up configurable (`warmup`).
 
 ### F2.3 — CLI y validación
 
-- [ ] Implementar el subcomando `mm1`.
-- [ ] Ejecutar un piloto para justificar el warm-up.
-- [ ] Ejecutar 50 réplicas de 30.000 minutos después del warm-up.
-- [ ] Calcular IC95 % y errores relativos.
-- [ ] Calcular y reportar ratios de Little.
-- [ ] Exportar resultados a CSV/JSON.
+- [x] Implementar el subcomando `mm1` (`cli.py`).
+- [x] Ejecutar un piloto para justificar el warm-up: con 10 réplicas por candidato, desde 1.000 min las diferencias respecto de 5.000 min son menores al 0,5 %; se adopta 1.000 min (`results/mm1_warmup_pilot.csv`).
+- [x] Ejecutar 50 réplicas de 30.000 minutos después del warm-up (`results/mm1_replicas.csv`).
+- [x] Calcular IC95 % y errores relativos (`results/mm1_summary.csv`).
+- [x] Calcular y reportar ratios de Little: `L/(λW) = 1,00045` y `Lq/(λWq) = 1,00054`.
+- [x] Exportar resultados a CSV/JSON (`results/mm1_summary.json`).
 
-**Criterio de aceptación F2:** los IC95 % contienen los valores analíticos, los ratios de Little son cercanos a 1 y el error relativo es razonable para un horizonte de 30.000 minutos.
+**Criterio de aceptación F2:** los IC95 % contienen los valores analíticos, los ratios de Little son cercanos a 1 y el error relativo es razonable para un horizonte de 30.000 minutos. **Cumplido:** los cinco IC95 % contienen su valor analítico; los ratios de Little están dentro de 0,06 % de 1; los errores relativos van de 0,5 % a 3,2 %.
 
 ---
 
@@ -387,6 +387,9 @@
 | 2026-11-23 | F1.1, F1.4 | Motor base de eventos discretos y pruebas de orden/desempate | Equipo | `engine.py`, `tests/test_engine.py`; 9 pruebas en verde |
 | 2026-11-23 | F5.1 | MiKTeX 25.12 y Strawberry Perl 5.42.3 instalados; compilación mínima en español verificada | Equipo | `pdflatex`, `latexmk` 4.89; PDF de prueba |
 | 2026-11-23 | F5 | Se incorpora el requisito del informe técnico y de responder todas las preguntas de la profesora | Equipo | `PLAN.md`, `AGENTS.md`; pendientes en `TODO.md` |
+| 2026-11-23 | F1.2–F1.4 | Distribuciones reproducibles, estadística con IC95 % y pruebas de semillas | Equipo | `distributions.py`, `stats.py`, `tests/test_distributions.py`, `tests/test_stats.py` |
+| 2026-11-23 | F2.1–F2.2 | Modelo M/M/1, fórmulas analíticas, warm-up y métricas | Equipo | `mm1.py`, `tests/test_mm1.py`; 40 pruebas en verde |
+| 2026-11-23 | F2.3 | CLI `mm1`, piloto de warm-up, 50 réplicas y exportación CSV/JSON | Equipo | `cli.py`, `results/mm1_*.csv`, `results/mm1_summary.json` |
 |  |  |  |  |  |
 
 ---

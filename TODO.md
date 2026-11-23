@@ -1,7 +1,7 @@
 # TODO — Pendientes del proyecto
 
 > Vista generada desde [`PLAN.md`](PLAN.md) el 2026-11-23.
-> Progreso: **27/142 tareas (19,0 %)**. Pendientes: **115**.
+> Progreso: **53/142 tareas (37,3 %)**. Pendientes: **89**.
 > No editar este archivo a mano: actualizar `PLAN.md` y ejecutar `python scripts/sync_todos.py`.
 
 ## Resumen por fase
@@ -9,65 +9,17 @@
 | Fase | Tareas | Completadas | Pendientes |
 |---|---:|---:|---:|
 | F0 — Preparación del repositorio | 19 | 19 | 0 |
-| F1 — Motor de eventos discretos | 17 | 6 | 11 |
-| F2 — Modelo M/M/1 | 15 | 0 | 15 |
+| F1 — Motor de eventos discretos | 17 | 17 | 0 |
+| F2 — Modelo M/M/1 | 15 | 15 | 0 |
 | F3 — Simulador del SOC | 24 | 0 | 24 |
 | F4 — Experimentos y escenarios | 23 | 0 | 23 |
 | F5 — Informe técnico en LaTeX y PDF | 23 | 2 | 21 |
 | F6 — Pruebas y aseguramiento de calidad | 8 | 0 | 8 |
 | F7 — Documentación final | 7 | 0 | 7 |
 | F8 — Publicación en GitHub y cierre | 6 | 0 | 6 |
-| **Total** | **142** | **27** | **115** |
+| **Total** | **142** | **53** | **89** |
 
 ## Pendientes por fase
-
-### F1 — Motor de eventos discretos (11 pendientes de 17)
-
-#### F1.2 — Generadores aleatorios
-
-- [ ] Implementar muestreo exponencial reproducible.
-- [ ] Implementar muestreo uniforme reproducible.
-- [ ] Implementar muestreo Weibull con forma y escala.
-- [ ] Separar los flujos aleatorios de llegadas y servicios.
-- [ ] Documentar la convención de unidades en minutos.
-
-#### F1.3 — Acumuladores y estadística
-
-- [ ] Implementar acumuladores de área para promedios ponderados por tiempo.
-- [ ] Implementar medias, desviación estándar e IC95 % con distribución t.
-- [ ] Implementar error relativo y ratios de Little.
-- [ ] Implementar comparación de diferencias pareadas entre escenarios.
-
-#### F1.4 — Pruebas iniciales
-
-- [ ] Probar reproducibilidad con semillas.
-- [ ] Probar que las medias muestrales de las distribuciones sean razonables.
-
-### F2 — Modelo M/M/1 (15 pendientes de 15)
-
-#### F2.1 — Parámetros y fórmulas
-
-- [ ] Implementar `λ = 0,25/min`, `μ = 1/3/min` y `ρ = 0,75`.
-- [ ] Implementar `L`, `Lq`, `W` y `Wq` analíticos.
-- [ ] Documentar la justificación del modelo M/M/1.
-
-#### F2.2 — Simulador
-
-- [ ] Implementar llegadas exponenciales.
-- [ ] Implementar servicio exponencial.
-- [ ] Implementar cola FIFO infinita.
-- [ ] Registrar tiempos de llegada, inicio de servicio y salida.
-- [ ] Medir `L`, `Lq`, `W` y `Wq`.
-- [ ] Implementar warm-up configurable.
-
-#### F2.3 — CLI y validación
-
-- [ ] Implementar el subcomando `mm1`.
-- [ ] Ejecutar un piloto para justificar el warm-up.
-- [ ] Ejecutar 50 réplicas de 30.000 minutos después del warm-up.
-- [ ] Calcular IC95 % y errores relativos.
-- [ ] Calcular y reportar ratios de Little.
-- [ ] Exportar resultados a CSV/JSON.
 
 ### F3 — Simulador del SOC (24 pendientes de 24)
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "simulacion-colas"
-version = "0.1.0"
+version = "0.2.0"
 description = "Simulación de eventos discretos de un servidor M/M/1 y un SOC con prioridades y buffer finito"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -26,6 +26,9 @@ dev = [
 
 [project.urls]
 Repository = "https://github.com/AngBan2x/simulacion-colas"
+
+[project.scripts]
+simulacion-colas = "simulacion_colas.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

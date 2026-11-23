@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+from simulacion_colas.distributions import Exponential, spawn_streams
 from simulacion_colas.engine import EventQueue, Simulation
 
 
@@ -113,6 +114,26 @@ def test_event_in_the_past_is_rejected() -> None:
 
     with pytest.raises(ValueError, match="pasado"):
         simulation.schedule_at(5.0, lambda: None)
+
+
+def test_streams_reproduce_event_sequences() -> None:
+    def run(seed: int) -> list[float]:
+        streams = spawn_streams(seed, ("llegadas", "servicios"))
+        events = Simulation()
+        times: list[float] = []
+
+        def arrival() -> None:
+            times.append(events.now)
+            if len(times) < 10:
+                delay = Exponential(0.25).sample(streams["llegadas"])
+                events.schedule(delay, arrival)
+
+        events.schedule(0.0, arrival)
+        events.run()
+        return times
+
+    assert run(42) == run(42)
+    assert run(42) != run(43)
 
 
 def test_event_queue_exposes_next_event() -> None:
