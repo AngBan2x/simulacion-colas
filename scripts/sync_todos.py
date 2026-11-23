@@ -189,7 +189,8 @@ def main() -> None:
     phases = parse_plan()
     if not phases:
         raise RuntimeError("No se encontraron fases en PLAN.md.")
-    TODO_PATH.write_text(render_todo(phases), encoding="utf-8")
+    with TODO_PATH.open("w", encoding="utf-8", newline="\n") as file:
+        file.write(render_todo(phases))
     total = sum(len(phase.tasks) for phase in phases)
     completed = sum(phase.completed for phase in phases)
     print(f"TODO.md actualizado: {completed}/{total} tareas completadas.")
