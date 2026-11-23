@@ -31,8 +31,9 @@ El avance detallado se mantiene en [`PLAN.md`](PLAN.md). Para consultar solo lo 
 - Git 2.56.1
 - GitHub CLI 2.97.0
 - pytest 9.2.0
-- MiKTeX 25.12 con `pdflatex` y `latexmk` verificados
-- `latexmk` requiere Perl; se verificó con el Perl disponible en el entorno
+- MiKTeX 25.12 con `pdflatex` verificado
+- Strawberry Perl 5.42.3
+- `latexmk` 4.89 compilando correctamente en español
 
 ## Instalación
 

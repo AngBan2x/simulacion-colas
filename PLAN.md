@@ -291,7 +291,7 @@
 
 ### F5.1 — Preparación de LaTeX
 
-- [x] Instalar MiKTeX o verificar que `pdflatex` y `latexmk` estén disponibles. MiKTeX 25.12 instalado; `pdflatex` y `latexmk` verificados.
+- [x] Instalar MiKTeX o verificar que `pdflatex` y `latexmk` estén disponibles. MiKTeX 25.12 y Strawberry Perl 5.42.3 instalados; `pdflatex` y `latexmk` 4.89 verificados.
 - [x] Verificar compilación de un documento mínimo en español; PDF de prueba generado correctamente.
 - [ ] Configurar la estructura de carpetas del informe.
 
@@ -385,7 +385,7 @@
 | 2026-11-22 | F0.3 | Estructura, README, `PLAN.md`, `AGENTS.md`, licencia y configuración | Equipo | `e93abbc` |
 | 2026-11-22 | F0.4 | Repositorio público creado y primer push | Equipo | https://github.com/AngBan2x/simulacion-colas |
 | 2026-11-23 | F1.1, F1.4 | Motor base de eventos discretos y pruebas de orden/desempate | Equipo | `engine.py`, `tests/test_engine.py`; 9 pruebas en verde |
-| 2026-11-23 | F5.1 | MiKTeX 25.12 instalado y compilación mínima en español verificada | Equipo | `pdflatex` y `latexmk`; PDF de prueba |
+| 2026-11-23 | F5.1 | MiKTeX 25.12 y Strawberry Perl 5.42.3 instalados; compilación mínima en español verificada | Equipo | `pdflatex`, `latexmk` 4.89; PDF de prueba |
 | 2026-11-23 | F5 | Se incorpora el requisito del informe técnico y de responder todas las preguntas de la profesora | Equipo | `PLAN.md`, `AGENTS.md`; pendientes en `TODO.md` |
 |  |  |  |  |  |
 

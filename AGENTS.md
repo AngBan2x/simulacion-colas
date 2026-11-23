@@ -116,8 +116,9 @@ Además:
 - Python: 3.14.7 detectado al inicio.
 - pytest: instalado en el entorno virtual.
 - Git y GitHub CLI: disponibles.
-- LaTeX/MiKTeX: MiKTeX 25.12 instalado; `pdflatex` y `latexmk` verificados.
-- `latexmk` requiere Perl. Usar Strawberry Perl o el Perl incluido con Git, asegurando que `perl` esté en el `PATH`.
+- LaTeX/MiKTeX: MiKTeX 25.12 instalado; `pdflatex` verificado.
+- Perl: Strawberry Perl 5.42.3 instalado; `latexmk` 4.89 verificado.
+- Si `latexmk` no encuentra Perl, abrir una terminal nueva o comprobar que `perl` esté en el `PATH`.
 
 ## 10. Definición de terminado
 
