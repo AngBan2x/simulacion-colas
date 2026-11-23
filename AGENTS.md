@@ -6,8 +6,9 @@ Este archivo define cómo deben trabajar las personas y los agentes que contribu
 
 - **Alcance del proyecto:** [`Proyecto_simulacion.md`](Proyecto_simulacion.md). No se debe ampliar ni modificar el alcance sin aprobación del equipo.
 - **Avance y tareas:** [`PLAN.md`](PLAN.md). Es la fuente única de verdad sobre qué está pendiente, en curso o terminado.
+- **Vista de pendientes:** [`TODO.md`](TODO.md). Se genera desde `PLAN.md`; no se edita a mano.
 - **Comandos y uso:** [`README.md`](README.md).
-- **Informe:** `docs/informe/main.tex` y su PDF compilado.
+- **Informe:** `docs/informe/main.tex` y su PDF compilado. Es un informe técnico que debe explicar el modelo de colas y responder las preguntas y situaciones hipotéticas de la profesora.
 - **Reglas del modelo:** las de este archivo y las del enunciado.
 
 Antes de hacer cualquier cambio, lee `PLAN.md`, identifica una tarea pendiente y confirma que no esté siendo trabajada por otra persona.
@@ -38,7 +39,8 @@ Cualquier cambio en estos supuestos debe actualizar simultáneamente el código,
 6. Actualizar resultados, documentación e informe si el comportamiento cambió.
 7. Marcar la tarea como `[x]` y agregar evidencia: archivos, pruebas o commit.
 8. Actualizar la tabla de progreso y el registro de avances de `PLAN.md`.
-9. Hacer commit y subir los cambios.
+9. Ejecutar `python scripts/sync_todos.py` para regenerar `TODO.md`.
+10. Hacer commit y subir los cambios.
 
 No se deben mezclar cambios no relacionados en un mismo commit.
 
@@ -57,6 +59,7 @@ Reglas:
 - Al cerrar una fase, revisar todas sus tareas y su criterio de aceptación.
 - Actualizar las fechas y el porcentaje de progreso.
 - Si una tarea queda bloqueada, indicar el motivo y el siguiente paso.
+- Regenerar `TODO.md` con `python scripts/sync_todos.py` después de cada cambio de estado.
 - Al finalizar el proyecto, todas las tareas deben estar completadas o justificadas como fuera de alcance.
 
 ## 5. Calidad mínima antes de cerrar una tarea
@@ -95,6 +98,7 @@ Además:
 - Se versionan los resúmenes `CSV`/`JSON`, las figuras finales y el PDF.
 - No se versionan trazas crudas ni resultados temporales.
 - El informe se escribe en LaTeX y se compila a PDF.
+- El informe es técnico: debe explicar el modelo de colas propuesto y analizar o responder todas las preguntas y situaciones hipotéticas de la profesora.
 - Los números del informe deben coincidir con los resultados versionados.
 
 ## 8. Git y GitHub
@@ -112,7 +116,8 @@ Además:
 - Python: 3.14.7 detectado al inicio.
 - pytest: instalado en el entorno virtual.
 - Git y GitHub CLI: disponibles.
-- LaTeX/MiKTeX: la instalación fue autorizada, pero se realizará en la fase del informe. No asumir que `pdflatex` está disponible hasta completar esa tarea.
+- LaTeX/MiKTeX: MiKTeX 25.12 instalado; `pdflatex` y `latexmk` verificados.
+- `latexmk` requiere Perl. Usar Strawberry Perl o el Perl incluido con Git, asegurando que `perl` esté en el `PATH`.
 
 ## 10. Definición de terminado
 

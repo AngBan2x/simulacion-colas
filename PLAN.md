@@ -3,11 +3,12 @@
 > **Proyecto:** Simulación de un servidor CI/CD M/M/1 y un SOC con prioridades y buffer finito<br>
 > **Repositorio:** `AngBan2x/simulacion-colas` (público)<br>
 > **Documento de referencia:** `Proyecto_simulacion.md`<br>
-> **Estado global:** 17,7 % — F0 completada, F1 en curso (6/17)<br>
+> **Estado global:** 19,0 % — F0 completada, F1 en curso (6/17), preparación de LaTeX iniciada<br>
 > **Fase actual:** F1 — Motor de eventos discretos<br>
+> **Vista rápida de pendientes:** [`TODO.md`](TODO.md)<br>
 > **Última actualización:** 2026-11-23<br>
 > **Licencia:** MIT<br>
-> **Informe:** LaTeX compilado a PDF (MiKTeX autorizado; instalación pendiente en F5.1)<br>
+> **Informe:** LaTeX compilado a PDF (MiKTeX 25.12 instalado; `pdflatex` y `latexmk` verificados)<br>
 > **Objetivo de este archivo:** ser la fuente única de verdad del avance del proyecto. Debe actualizarse al comenzar y al terminar cada tarea, y al cerrar cada fase.
 
 ---
@@ -76,11 +77,11 @@
 | F2 | Modelo M/M/1 | Pendiente | 15 | 0 | 0 % |
 | F3 | Simulador del SOC | Pendiente | 24 | 0 | 0 % |
 | F4 | Experimentos y escenarios | Pendiente | 23 | 0 | 0 % |
-| F5 | Informe en LaTeX y PDF | Pendiente | 22 | 0 | 0 % |
+| F5 | Informe técnico en LaTeX y PDF | En curso | 23 | 2 | 8,7 % |
 | F6 | Pruebas y aseguramiento de calidad | Pendiente | 8 | 0 | 0 % |
 | F7 | Documentación final | Pendiente | 7 | 0 | 0 % |
 | F8 | Publicación en GitHub y cierre | Pendiente | 6 | 0 | 0 % |
-| **Total** |  |  | **141** | **25** | **17,7 %** |
+| **Total** |  |  | **142** | **27** | **19,0 %** |
 
 ---
 
@@ -94,7 +95,7 @@
 
 - [x] Confirmar versiones de Python, Git, GitHub CLI y pytest.
 - [x] Verificar autenticación de `gh` y cuenta activa.
-- [x] Verificar disponibilidad de LaTeX (`pdflatex` y `latexmk`): no está instalado; instalación de MiKTeX autorizada y diferida a F5.1.
+- [x] Verificar disponibilidad inicial de LaTeX: no estaba instalado; se autorizó MiKTeX y se completó su instalación en F5.1.
 - [x] Registrar las versiones en el README.
 
 ### F0.2 — Entorno de Python
@@ -284,28 +285,29 @@
 
 ---
 
-## F5 — Informe en LaTeX y PDF
+## F5 — Informe técnico en LaTeX y PDF
 
-**Objetivo:** producir `docs/informe/main.tex` y `docs/informe/main.pdf`.
+**Objetivo:** producir `docs/informe/main.tex` y `docs/informe/main.pdf` como un informe técnico que explique el modelo de colas propuesto, documente la simulación y analice o responda todas las preguntas y situaciones hipotéticas de la profesora.
 
 ### F5.1 — Preparación de LaTeX
 
-- [ ] Instalar MiKTeX o verificar que `pdflatex` y `latexmk` estén disponibles.
-- [ ] Verificar compilación de un documento mínimo en español.
+- [x] Instalar MiKTeX o verificar que `pdflatex` y `latexmk` estén disponibles. MiKTeX 25.12 instalado; `pdflatex` y `latexmk` verificados.
+- [x] Verificar compilación de un documento mínimo en español; PDF de prueba generado correctamente.
 - [ ] Configurar la estructura de carpetas del informe.
 
 ### F5.2 — Contenido
 
 - [ ] Escribir resumen, introducción y objetivos.
-- [ ] Escribir marco teórico: M/M/1, Little, prioridades, buffers finitos.
+- [ ] Explicar el modelo de colas propuesto y el marco teórico: M/M/1, Little, prioridades y buffers finitos.
 - [ ] Describir el motor de eventos discretos.
 - [ ] Documentar los parámetros y supuestos.
 - [ ] Presentar la validación M/M/1 con tablas y gráficos.
 - [ ] Presentar los resultados del SOC base.
-- [ ] Responder al Escenario A.
-- [ ] Comparar y recomendar una alternativa en el Escenario B.
+- [ ] Analizar y responder al Escenario A, incluyendo el efecto sobre la saturación.
+- [ ] Analizar, comparar y recomendar una alternativa en el Escenario B.
 - [ ] Escribir limitaciones y conclusiones.
 - [ ] Incluir referencias bibliográficas.
+- [ ] Verificar que todas las preguntas y situaciones hipotéticas de la profesora tengan una respuesta explícita en el informe.
 
 ### F5.3 — Tablas y figuras automáticas
 
@@ -322,7 +324,7 @@
 - [ ] Confirmar que el PDF final existe y se versiona.
 - [ ] Agregar en el README el enlace al PDF.
 
-**Criterio de aceptación F5:** el PDF compila desde cero, contiene todos los resultados y responde explícitamente las preguntas de la gerencia.
+**Criterio de aceptación F5:** el PDF compila desde cero, explica el modelo de colas propuesto, contiene todos los resultados y responde explícitamente las preguntas y situaciones hipotéticas de la profesora.
 
 ---
 
@@ -383,6 +385,8 @@
 | 2026-11-22 | F0.3 | Estructura, README, `PLAN.md`, `AGENTS.md`, licencia y configuración | Equipo | `e93abbc` |
 | 2026-11-22 | F0.4 | Repositorio público creado y primer push | Equipo | https://github.com/AngBan2x/simulacion-colas |
 | 2026-11-23 | F1.1, F1.4 | Motor base de eventos discretos y pruebas de orden/desempate | Equipo | `engine.py`, `tests/test_engine.py`; 9 pruebas en verde |
+| 2026-11-23 | F5.1 | MiKTeX 25.12 instalado y compilación mínima en español verificada | Equipo | `pdflatex` y `latexmk`; PDF de prueba |
+| 2026-11-23 | F5 | Se incorpora el requisito del informe técnico y de responder todas las preguntas de la profesora | Equipo | `PLAN.md`, `AGENTS.md`; pendientes en `TODO.md` |
 |  |  |  |  |  |
 
 ---

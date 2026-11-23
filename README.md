@@ -5,7 +5,7 @@ Proyecto de simulación de eventos discretos para dos sistemas de líneas de esp
 1. **Servidor CI/CD M/M/1:** un único servidor con llegadas Poisson, servicio exponencial, disciplina FIFO y cola infinita.
 2. **Centro de Triaje de Incidentes (SOC):** tres analistas en paralelo, dos clases de alertas con prioridad no expropiativa, servicios no exponenciales y buffer finito de 8 espacios.
 
-El proyecto incluye el motor de simulación, los experimentos estadísticos, los escenarios de capacidad solicitados y un informe en LaTeX compilado a PDF.
+El proyecto incluye el motor de simulación, los experimentos estadísticos, los escenarios de capacidad solicitados y un informe técnico en LaTeX compilado a PDF que explica el modelo de colas propuesto y responde las situaciones hipotéticas de la profesora.
 
 ## Estado actual
 
@@ -14,9 +14,9 @@ El proyecto incluye el motor de simulación, los experimentos estadísticos, los
 - [ ] Modelo M/M/1 y validación analítica.
 - [ ] Simulador del SOC.
 - [ ] Experimentos y escenarios A/B.
-- [ ] Informe LaTeX y PDF.
+- [ ] Informe técnico en LaTeX y PDF.
 
-El avance detallado se mantiene en [`PLAN.md`](PLAN.md).
+El avance detallado se mantiene en [`PLAN.md`](PLAN.md). Para consultar solo lo pendiente, revisa [`TODO.md`](TODO.md).
 
 ## Requisitos
 
@@ -31,7 +31,8 @@ El avance detallado se mantiene en [`PLAN.md`](PLAN.md).
 - Git 2.56.1
 - GitHub CLI 2.97.0
 - pytest 9.2.0
-- LaTeX: pendiente de instalación (MiKTeX autorizado)
+- MiKTeX 25.12 con `pdflatex` y `latexmk` verificados
+- `latexmk` requiere Perl; se verificó con el Perl disponible en el entorno
 
 ## Instalación
 
@@ -61,12 +62,15 @@ simulacion-colas/
 ├── Proyecto_simulacion.md   # Enunciado original
 ├── README.md
 ├── PLAN.md                  # Plan y seguimiento de avance
+├── TODO.md                  # Vista generada de tareas pendientes
 ├── AGENTS.md                # Reglas para el equipo y agentes
 ├── LICENSE                  # Licencia MIT
 ├── pyproject.toml
 ├── src/
 │   └── simulacion_colas/
 ├── tests/
+├── scripts/
+│   └── sync_todos.py        # Regenera TODO.md desde PLAN.md
 ├── results/                 # Resultados resumidos generados
 ├── figures/                 # Figuras generadas
 └── docs/
@@ -77,8 +81,15 @@ simulacion-colas/
 
 - [`Proyecto_simulacion.md`](Proyecto_simulacion.md): enunciado y alcance.
 - [`PLAN.md`](PLAN.md): fases, tareas y estado de avance.
+- [`TODO.md`](TODO.md): vista rápida de las tareas pendientes.
 - [`AGENTS.md`](AGENTS.md): reglas de contribución para personas y agentes.
-- `docs/informe/main.pdf`: informe final, pendiente de generar.
+- `docs/informe/main.pdf`: informe técnico final, pendiente de generar.
+
+Para actualizar la vista de pendientes después de cambiar `PLAN.md`:
+
+```powershell
+python scripts/sync_todos.py
+```
 
 ## Licencia
 
