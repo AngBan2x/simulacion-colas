@@ -12,8 +12,8 @@ El proyecto incluye el motor de simulación, los experimentos estadísticos, los
 - [x] Preparación del repositorio, licencia y documentación de trabajo.
 - [x] Motor de eventos discretos, distribuciones y estadística.
 - [x] Modelo M/M/1 y validación analítica.
-- [ ] Simulador del SOC.
-- [ ] Experimentos y escenarios A/B.
+- [x] Simulador del SOC.
+- [x] Experimentos y escenarios A/B.
 - [ ] Informe técnico en LaTeX y PDF.
 
 El avance detallado se mantiene en [`PLAN.md`](PLAN.md). Para consultar solo lo pendiente, revisa [`TODO.md`](TODO.md).
@@ -84,6 +84,36 @@ La ejecución escribe:
 - `results/mm1_summary.json`: resumen completo y comparación analítica.
 - `results/mm1_warmup_pilot.csv`: piloto que justifica el warm-up.
 
+El modelo del Centro de Triaje (SOC) y sus escenarios se ejecutan con:
+
+```powershell
+python -m simulacion_colas soc
+python -m simulacion_colas scenarios
+python -m simulacion_colas figures
+python -m simulacion_colas all
+```
+
+Opciones principales de `soc` y `scenarios`:
+
+```text
+--replications / --reps N   número de réplicas (por defecto 30)
+--warmup-days D             warm-up en días (por defecto 1 = 1.440 min)
+--days D                    días de operación medida tras el warm-up (por defecto 30 = 43.200 min)
+--warmup / --warmup-min M   warm-up explícito en minutos
+--horizon / --horizon-min M horizonte total en minutos
+--seed N                    semilla base (por defecto 1)
+--no-drain                  desactiva el drenaje al final del horizonte
+--results-dir DIR           carpeta de salida (por defecto results/)
+--figures-dir DIR           carpeta de figuras (por defecto figures/, en scenarios y figures)
+--skip-figures              omite la generación de figuras al final de scenarios/all
+```
+
+Archivos generados por el SOC y los escenarios:
+
+- `results/soc_base_replicas.csv`, `results/soc_base_summary.csv`, `results/soc_base_summary.json`.
+- `results/soc_scenarios_replicas.csv`, `results/soc_scenarios_summary.csv`, `results/soc_scenarios_comparisons.csv`, `results/soc_scenarios_summary.json`.
+- `figures/mm1_validation.{pdf,png}`, `figures/soc_scenario_a.{pdf,png}`, `figures/soc_scenario_b.{pdf,png}`.
+
 ## Modelo M/M/1
 
 El servidor CI/CD tiene llegadas Poisson con `λ = 0,25` trabajos/minuto, un
@@ -105,6 +135,21 @@ Todas las unidades de tiempo del proyecto están en **minutos**. Las
 distribuciones de `simulacion_colas.distributions` reciben tasas por minuto y
 devuelven duraciones en minutos.
 
+## Centro de Triaje de Incidentes (SOC)
+
+El SOC cuenta con `s = 3` analistas en paralelo y capacidad de cola finita
+`K = 8` (capacidad total `11`), prioridad **no expropiativa** de alertas
+críticas (Tipo 1) sobre preventivas (Tipo 2) y colas FIFO por clase:
+
+- **Tipo 1 (críticas):** `λ1 = 0,05/min`, servicio `Uniforme(15, 25)` min (`E[S1] = 20 min`).
+- **Tipo 2 (preventivas):** `λ2 = 0,10/min` (base) o `0,14/min` (Escenario A), servicio `Weibull(k = 1,5, escala = 12)` min (`E[S2] ≈ 10,8329 min`).
+
+Resumen con 30 réplicas (1 día de warm-up + 30 días de operación, semillas comunes 1..30):
+
+- **Base (`s=3, K=8, λ2=0,10`):** `P_loss = 0,385 %`, utilización `68,87 %`, `Wq1 = 2,267 min`, `Wq2 = 6,417 min`, `Lq = 0,750`.
+- **Escenario A (`s=3, K=8, λ2=0,14`):** `P_loss = 2,220 %` (`+1,835 pp`, `+477,0 %` relativo), utilización efectiva `81,65 %` (`ρ_ofrecida = 0,8389 < 1`), `Wq1 = 3,074 min`, `Wq2 = 11,663 min`.
+- **Escenario B (`s=3, K=16` vs `s=4, K=8`):** bajo demanda base ambas reducen `P_loss` en ~95 % (`0,019 %` vs `0,021 %`), pero `s=4` reduce `Wq1` (`0,659` vs `2,344 min`) y `Wq2` (`1,282` vs `7,183 min`). Bajo sobrecarga (`λ2=0,14`), `s=4` reduce `P_loss` a `0,129 %` frente a `0,395 %` con `K=16` y mantiene `Wq2 = 2,519 min` frente a `17,414 min`. Se recomienda contratar el 4.º analista (`s=4, K=8`).
+
 ## Pruebas
 
 ```powershell
@@ -124,11 +169,15 @@ simulacion-colas/
 ├── pyproject.toml
 ├── src/
 │   └── simulacion_colas/
+│       ├── __init__.py
+│       ├── __main__.py       # Punto de entrada python -m simulacion_colas
 │       ├── engine.py         # Cola de eventos y reloj de simulación
 │       ├── distributions.py  # Exponencial, uniforme y Weibull reproducibles
 │       ├── stats.py          # Acumuladores, IC95 % y comparaciones
 │       ├── mm1.py            # Modelo M/M/1 y validación analítica
-│       └── cli.py            # Subcomando mm1 y exportación de resultados
+│       ├── soc.py            # Simulador del SOC y escenarios A/B
+│       ├── figures.py        # Generación de figuras PDF/PNG con matplotlib
+│       └── cli.py            # Subcomandos mm1, soc, scenarios, figures y all
 ├── tests/
 ├── scripts/
 │   └── sync_todos.py        # Regenera TODO.md desde PLAN.md

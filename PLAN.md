@@ -3,8 +3,8 @@
 > **Proyecto:** Simulación de un servidor CI/CD M/M/1 y un SOC con prioridades y buffer finito<br>
 > **Repositorio:** `AngBan2x/simulacion-colas` (público)<br>
 > **Documento de referencia:** `Proyecto_simulacion.md`<br>
-> **Estado global:** 37,3 % — F0, F1 y F2 completadas; F5 con preparación de LaTeX<br>
-> **Fase actual:** F2 completada; próximo paso F3 — Simulador del SOC (no iniciado)<br>
+> **Estado global:** 70,4 % — F0, F1, F2, F3 y F4 completadas (100/142); F5 con preparación de LaTeX<br>
+> **Fase actual:** F4 completada; próximo paso F5 — Informe técnico en LaTeX y PDF (42 tareas pendientes para Integrante 3)<br>
 > **Vista rápida de pendientes:** [`TODO.md`](TODO.md)<br>
 > **Última actualización:** 2026-11-23<br>
 > **Licencia:** MIT<br>
@@ -75,13 +75,13 @@
 | F0 | Preparación del repositorio | Completada | 19 | 19 | 100 % |
 | F1 | Motor de eventos discretos | Completada | 17 | 17 | 100 % |
 | F2 | Modelo M/M/1 | Completada | 15 | 15 | 100 % |
-| F3 | Simulador del SOC | Pendiente | 24 | 0 | 0 % |
-| F4 | Experimentos y escenarios | Pendiente | 23 | 0 | 0 % |
+| F3 | Simulador del SOC | Completada | 24 | 24 | 100 % |
+| F4 | Experimentos y escenarios | Completada | 23 | 23 | 100 % |
 | F5 | Informe técnico en LaTeX y PDF | En curso | 23 | 2 | 8,7 % |
 | F6 | Pruebas y aseguramiento de calidad | Pendiente | 8 | 0 | 0 % |
 | F7 | Documentación final | Pendiente | 7 | 0 | 0 % |
 | F8 | Publicación en GitHub y cierre | Pendiente | 6 | 0 | 0 % |
-| **Total** |  |  | **142** | **53** | **37,3 %** |
+| **Total** |  |  | **142** | **100** | **70,4 %** |
 
 ---
 
@@ -201,41 +201,41 @@
 
 ### F3.1 — Configuración y llegadas
 
-- [ ] Implementar `s = 3` y `K = 8`.
-- [ ] Implementar llegadas Tipo 1 con `λ1 = 0,05/min`.
-- [ ] Implementar llegadas Tipo 2 con `λ2 = 0,10/min`.
-- [ ] Implementar servicio Tipo 1 uniforme entre 15 y 25 minutos.
-- [ ] Implementar servicio Tipo 2 Weibull con forma 1,5 y escala 12.
+- [x] Implementar `s = 3` y `K = 8`. (`SOCParameters` en `src/simulacion_colas/soc.py`)
+- [x] Implementar llegadas Tipo 1 con `λ1 = 0,05/min`. (`Exponential(0.05)` en `soc.py`)
+- [x] Implementar llegadas Tipo 2 con `λ2 = 0,10/min`. (`Exponential(0.10)` en `soc.py`)
+- [x] Implementar servicio Tipo 1 uniforme entre 15 y 25 minutos. (`Uniform(15.0, 25.0)` en `soc.py`)
+- [x] Implementar servicio Tipo 2 Weibull con forma 1,5 y escala 12. (`Weibull(1.5, 12.0)` en `soc.py`)
 
 ### F3.2 — Lógica de admisión y servicio
 
-- [ ] Implementar inicio inmediato de servicio si hay analista libre.
-- [ ] Implementar encolado si hay espacio.
-- [ ] Implementar rechazo inmediato si la cola está llena.
-- [ ] Implementar dos colas FIFO separadas.
-- [ ] Implementar selección de crítica más antigua al liberarse un analista.
-- [ ] Implementar selección de preventiva más antigua si no hay críticas.
-- [ ] Garantizar que no haya expropiación.
+- [x] Implementar inicio inmediato de servicio si hay analista libre. (`_SOCRun._handle_arrival` en `soc.py`)
+- [x] Implementar encolado si hay espacio. (`_SOCRun._handle_arrival` en `soc.py`)
+- [x] Implementar rechazo inmediato si la cola está llena. (Bloqueo cuando `len(queue_1)+len(queue_2) == K`)
+- [x] Implementar dos colas FIFO separadas. (`queue_1` y `queue_2` con `collections.deque`)
+- [x] Implementar selección de crítica más antigua al liberarse un analista. (`queue_1.popleft()` en `_on_departure`)
+- [x] Implementar selección de preventiva más antigua si no hay críticas. (`queue_2.popleft()` en `_on_departure`)
+- [x] Garantizar que no haya expropiación. (Servicios en curso nunca se interrumpen; verificado en `tests/test_soc.py`)
 
 ### F3.3 — Métricas
 
-- [ ] Registrar `W1`, `Wq1`, `W2`, `Wq2` solo para alertas admitidas.
-- [ ] Registrar `Lq` global y por tipo como métrica de apoyo.
-- [ ] Registrar utilización conjunta de los tres analistas.
-- [ ] Registrar `P_loss`, `P_loss1` y `P_loss2`.
-- [ ] Registrar conteos de llegadas, admitidas, bloqueadas, completadas y remanentes.
+- [x] Registrar `W1`, `Wq1`, `W2`, `Wq2` solo para alertas admitidas. (`SOCReplication` en `soc.py`)
+- [x] Registrar `Lq` global y por tipo como métrica de apoyo. (`Lq`, `Lq1`, `Lq2` con `TimeWeightedAccumulator`)
+- [x] Registrar utilización conjunta de los tres analistas. (`busy_area / (duration * analysts)`)
+- [x] Registrar `P_loss`, `P_loss1` y `P_loss2`. (`blocked / arrivals` global y por clase)
+- [x] Registrar conteos de llegadas, admitidas, bloqueadas, completadas y remanentes. (`SOCReplication` en `soc.py`)
 
 ### F3.4 — Pruebas específicas
 
-- [ ] Probar que no haya más de 3 servicios simultáneos.
-- [ ] Probar el bloqueo con 3 servidores ocupados y 8 en cola.
-- [ ] Probar el bloqueo de una alerta crítica cuando la cola está llena.
-- [ ] Probar la prioridad de una crítica sobre una preventiva.
-- [ ] Probar la no expropiación.
-- [ ] Probar FIFO dentro de cada clase.
-- [ ] Probar las invariantes de conservación.
+- [x] Probar que no haya más de 3 servicios simultáneos. (`test_never_more_than_three_simultaneous_services`)
+- [x] Probar el bloqueo con 3 servidores ocupados y 8 en cola. (`test_blocks_when_three_analysts_busy_and_eight_in_queue`)
+- [x] Probar el bloqueo de una alerta crítica cuando la cola está llena. (`test_critical_alert_is_blocked_when_queue_is_full`)
+- [x] Probar la prioridad de una crítica sobre una preventiva. (`test_critical_has_priority_over_preventive_when_analyst_frees`)
+- [x] Probar la no expropiación. (`test_non_preemptive_priority_does_not_interrupt_service`)
+- [x] Probar FIFO dentro de cada clase. (`test_fifo_within_each_class`)
+- [x] Probar las invariantes de conservación. (`test_conservation_invariants`)
 
-**Criterio de aceptación F3:** todas las pruebas de capacidad, prioridad y conservación pasan y el modelo puede ejecutar 30 días simulados.
+**Criterio de aceptación F3:** todas las pruebas de capacidad, prioridad y conservación pasan y el modelo puede ejecutar 30 días simulados. **Cumplido:** todas las pruebas específicas en `tests/test_soc.py` en verde y réplicas de 30 días verificadas.
 
 ---
 
@@ -245,43 +245,43 @@
 
 ### F4.1 — Configuración experimental
 
-- [ ] Definir las semillas y los flujos aleatorios.
-- [ ] Definir warm-up y horizontes.
-- [ ] Configurar 30 réplicas para el SOC.
-- [ ] Configurar semillas comunes para comparaciones pareadas.
-- [ ] Implementar el drenaje de alertas admitidas al final del horizonte, si se usa para evitar censura.
+- [x] Definir las semillas y los flujos aleatorios. (`spawn_streams` con 4 flujos independientes y `base_seed = 1`)
+- [x] Definir warm-up y horizontes. (`DEFAULT_SOC_WARMUP = 1.440 min`, `DEFAULT_SOC_DURATION = 43.200 min`)
+- [x] Configurar 30 réplicas para el SOC. (`DEFAULT_SOC_REPLICATIONS = 30`)
+- [x] Configurar semillas comunes para comparaciones pareadas. (`run_soc_scenarios` con CRN y `compare_soc_scenarios`)
+- [x] Implementar el drenaje de alertas admitidas al final del horizonte, si se usa para evitar censura. (`drain=True` configurable y `--no-drain` en CLI)
 
 ### F4.2 — SOC base
 
-- [ ] Ejecutar 30 días de operación después de 1 día de warm-up.
-- [ ] Reportar `W1`, `Wq1`, `W2`, `Wq2`, `Lq`, utilización y `P_loss`.
-- [ ] Reportar IC95 %.
-- [ ] Guardar resultados por réplica y resumen.
+- [x] Ejecutar 30 días de operación después de 1 día de warm-up. (`results/soc_base_replicas.csv`)
+- [x] Reportar `W1`, `Wq1`, `W2`, `Wq2`, `Lq`, utilización y `P_loss`. (`results/soc_base_summary.csv` y `.json`)
+- [x] Reportar IC95 %. (`summarize_soc_replications` con t de Student)
+- [x] Guardar resultados por réplica y resumen. (`results/soc_base_*`)
 
 ### F4.3 — Escenario A
 
-- [ ] Cambiar `λ2` a `0,14/min` (8,4/hora).
-- [ ] Ejecutar las réplicas correspondientes.
-- [ ] Calcular aumento absoluto y relativo de `P_loss`.
-- [ ] Calcular utilización y tiempos de espera.
-- [ ] Evaluar si los analistas se saturan.
+- [x] Cambiar `λ2` a `0,14/min` (8,4/hora). (`OVERLOAD_ARRIVAL_RATE_2 = 0.14` en `soc.py`)
+- [x] Ejecutar las réplicas correspondientes. (`results/soc_scenarios_replicas.csv`)
+- [x] Calcular aumento absoluto y relativo de `P_loss`. (+1,835 pp / +477,0 % en `results/soc_scenarios_comparisons.csv`)
+- [x] Calcular utilización y tiempos de espera. (`utilization = 81,65 %`, `Wq1 = 3,07 min`, `Wq2 = 11,66 min`)
+- [x] Evaluar si los analistas se saturan. (`ρ_ofrecida = 0,8389 < 1`: no saturan al 100 %, pero crece severamente la congestión)
 
 ### F4.4 — Escenario B
 
-- [ ] Ejecutar la alternativa `s=3, K=16`.
-- [ ] Ejecutar la alternativa `s=4, K=8`.
-- [ ] Comparar `P_loss`, `W1`, `W2`, `Wq1`, `Wq2`, `Lq` y utilización.
-- [ ] Repetir la comparación bajo la demanda del Escenario A como análisis de sensibilidad.
-- [ ] Emitir una recomendación técnica.
+- [x] Ejecutar la alternativa `s=3, K=16`. (`scenario_b_k16`)
+- [x] Ejecutar la alternativa `s=4, K=8`. (`scenario_b_s4`)
+- [x] Comparar `P_loss`, `W1`, `W2`, `Wq1`, `Wq2`, `Lq` y utilización. (`results/soc_scenarios_comparisons.csv`)
+- [x] Repetir la comparación bajo la demanda del Escenario A como análisis de sensibilidad. (`scenario_b_k16_overload` y `scenario_b_s4_overload`)
+- [x] Emitir una recomendación técnica. (Recomendación documentada en `soc_scenarios_summary.json`: contratar 4.º analista `s=4, K=8`)
 
 ### F4.5 — Exportación
 
-- [ ] Generar tablas CSV.
-- [ ] Generar resumen JSON.
-- [ ] Generar figuras.
-- [ ] Verificar que las tablas del informe usen los resultados generados.
+- [x] Generar tablas CSV. (`results/soc_base_*.csv`, `results/soc_scenarios_*.csv`)
+- [x] Generar resumen JSON. (`results/soc_base_summary.json`, `results/soc_scenarios_summary.json`)
+- [x] Generar figuras. (`figures/mm1_validation.{pdf,png}`, `figures/soc_scenario_a.{pdf,png}`, `figures/soc_scenario_b.{pdf,png}`)
+- [x] Verificar que las tablas del informe usen los resultados generados. (Tablas CSV y JSON fuente generadas y verificadas por `test_versioned_soc_results_and_figures_are_consistent` para su inserción LaTeX en F5.3)
 
-**Criterio de aceptación F4:** existen resultados reproducibles para el caso base, A y B, con IC95 % y comparaciones pareadas.
+**Criterio de aceptación F4:** existen resultados reproducibles para el caso base, A y B, con IC95 % y comparaciones pareadas. **Cumplido:** resultados reproducibles con CRN, IC95 %, análisis de sensibilidad y 6 figuras generadas en `results/` y `figures/`.
 
 ---
 
@@ -390,7 +390,8 @@
 | 2026-11-23 | F1.2–F1.4 | Distribuciones reproducibles, estadística con IC95 % y pruebas de semillas | Equipo | `distributions.py`, `stats.py`, `tests/test_distributions.py`, `tests/test_stats.py` |
 | 2026-11-23 | F2.1–F2.2 | Modelo M/M/1, fórmulas analíticas, warm-up y métricas | Equipo | `mm1.py`, `tests/test_mm1.py`; 40 pruebas en verde |
 | 2026-11-23 | F2.3 | CLI `mm1`, piloto de warm-up, 50 réplicas y exportación CSV/JSON | Equipo | `cli.py`, `results/mm1_*.csv`, `results/mm1_summary.json` |
-|  |  |  |  |  |
+| 2026-11-23 | F3.1–F3.4 | Simulador del SOC (prioridad no expropiativa, buffer finito, métricas) y pruebas específicas | Andrés (aech18) | `soc.py`, `tests/test_soc.py`; 60 pruebas en verde |
+| 2026-11-23 | F4.1–F4.5 | Campañas SOC base, Escenario A, Escenario B + sensibilidad (CRN), CSV/JSON y figuras PDF/PNG | Andrés (aech18) | `cli.py`, `figures.py`, `results/soc_*.csv`, `results/soc_*.json`, `figures/*.{pdf,png}` |
 
 ---
 
@@ -419,10 +420,10 @@ El proyecto se considerará terminado cuando:
 
 - [ ] `pytest -q` pase completamente.
 - [ ] El comando de reproducción genere todos los resultados.
-- [ ] M/M/1 esté validado contra las fórmulas analíticas con IC95 %.
-- [ ] Se demuestre numéricamente la Ley de Little.
-- [ ] El SOC respete capacidad, prioridad, no expropiación y bloqueo.
-- [ ] Se hayan respondido los Escenarios A y B con resultados e incertidumbre.
+- [x] M/M/1 esté validado contra las fórmulas analíticas con IC95 %.
+- [x] Se demuestre numéricamente la Ley de Little.
+- [x] El SOC respete capacidad, prioridad, no expropiación y bloqueo.
+- [x] Se hayan respondido los Escenarios A y B con resultados e incertidumbre.
 - [ ] El informe LaTeX compile a PDF sin errores.
 - [ ] El README permita reproducir el proyecto desde cero.
 - [ ] `PLAN.md` y `AGENTS.md` estén completos.
