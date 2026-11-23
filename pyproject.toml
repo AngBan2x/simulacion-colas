@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simulacion-colas"
+version = "0.1.0"
+description = "Simulación de eventos discretos de un servidor M/M/1 y un SOC con prioridades y buffer finito"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Angel (AngBan2x)" },
+]
+dependencies = []
+
+[project.optional-dependencies]
+analysis = [
+    "matplotlib>=3.8",
+    "scipy>=1.13",
+]
+dev = [
+    "pytest>=8",
+]
+
+[project.urls]
+Repository = "https://github.com/AngBan2x/simulacion-colas"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

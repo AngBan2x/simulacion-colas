@@ -1,0 +1,17 @@
+* text=auto eol=lf
+
+*.py text
+*.md text
+*.toml text
+*.tex text
+*.bib text
+*.csv text
+*.json text
+*.yaml text
+*.yml text
+*.ps1 text eol=crlf
+
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
