@@ -25,7 +25,7 @@
 - [x] Se agregará una licencia **MIT**.
 - [x] Se creará un archivo **`PLAN.md`** en la raíz del repositorio para el seguimiento del avance.
 - [x] Se creará un archivo **`AGENTS.md`** en la raíz con las reglas de trabajo para el equipo y los agentes.
-- [x] La instalación de **MiKTeX** fue autorizada; se ejecutará en la fase del informe.
+- [x] **MiKTeX 25.12** instalado; `pdflatex` y `latexmk` verificados para el informe.
 - [x] Los resultados resumidos y las figuras se versionarán en Git.
 - [x] Las trazas crudas, entornos virtuales y archivos temporales no se versionarán.
 
