@@ -1,13 +1,13 @@
 # Plan de implementación — Simulación de colas
 
-> **Proyecto:** Simulación de un servidor CI/CD M/M/1 y un SOC con prioridades y buffer finito  
-> **Repositorio:** `AngBan2x/simulacion-colas` (público)  
-> **Documento de referencia:** `Proyecto_simulacion.md`  
-> **Estado global:** 13,5 % — F0 completada, F1 pendiente  
-> **Fase actual:** F1 — Motor de eventos discretos  
-> **Última actualización:** 2026-11-22  
-> **Licencia:** MIT  
-> **Informe:** LaTeX compilado a PDF (MiKTeX autorizado; instalación pendiente en F5.1)  
+> **Proyecto:** Simulación de un servidor CI/CD M/M/1 y un SOC con prioridades y buffer finito<br>
+> **Repositorio:** `AngBan2x/simulacion-colas` (público)<br>
+> **Documento de referencia:** `Proyecto_simulacion.md`<br>
+> **Estado global:** 17,7 % — F0 completada, F1 en curso (6/17)<br>
+> **Fase actual:** F1 — Motor de eventos discretos<br>
+> **Última actualización:** 2026-11-23<br>
+> **Licencia:** MIT<br>
+> **Informe:** LaTeX compilado a PDF (MiKTeX autorizado; instalación pendiente en F5.1)<br>
 > **Objetivo de este archivo:** ser la fuente única de verdad del avance del proyecto. Debe actualizarse al comenzar y al terminar cada tarea, y al cerrar cada fase.
 
 ---
@@ -72,7 +72,7 @@
 | Fase | Descripción | Estado | Tareas | Completadas | Progreso |
 |---|---|---|---:|---:|---:|
 | F0 | Preparación del repositorio | Completada | 19 | 19 | 100 % |
-| F1 | Motor de eventos discretos | Pendiente | 17 | 0 | 0 % |
+| F1 | Motor de eventos discretos | En curso | 17 | 6 | 35,3 % |
 | F2 | Modelo M/M/1 | Pendiente | 15 | 0 | 0 % |
 | F3 | Simulador del SOC | Pendiente | 24 | 0 | 0 % |
 | F4 | Experimentos y escenarios | Pendiente | 23 | 0 | 0 % |
@@ -80,7 +80,7 @@
 | F6 | Pruebas y aseguramiento de calidad | Pendiente | 8 | 0 | 0 % |
 | F7 | Documentación final | Pendiente | 7 | 0 | 0 % |
 | F8 | Publicación en GitHub y cierre | Pendiente | 6 | 0 | 0 % |
-| **Total** |  |  | **141** | **19** | **13,5 %** |
+| **Total** |  |  | **141** | **25** | **17,7 %** |
 
 ---
 
@@ -131,10 +131,10 @@
 
 ### F1.1 — Cola de eventos
 
-- [ ] Implementar `Event` con tiempo, tipo, prioridad y secuencia.
-- [ ] Implementar `EventQueue` con `heapq`.
-- [ ] Definir y documentar la regla de desempate para eventos simultáneos.
-- [ ] Implementar el reloj de simulación y el bucle principal.
+- [x] Implementar `Event` con tiempo, tipo, prioridad y secuencia (`src/simulacion_colas/engine.py`).
+- [x] Implementar `EventQueue` con `heapq` (`src/simulacion_colas/engine.py`).
+- [x] Definir y documentar la regla de desempate para eventos simultáneos (tiempo → prioridad → secuencia FIFO).
+- [x] Implementar el reloj de simulación y el bucle principal (`Simulation.run`).
 
 ### F1.2 — Generadores aleatorios
 
@@ -153,8 +153,8 @@
 
 ### F1.4 — Pruebas iniciales
 
-- [ ] Probar el orden de eventos.
-- [ ] Probar el desempate determinista.
+- [x] Probar el orden de eventos (`tests/test_engine.py`).
+- [x] Probar el desempate determinista (`tests/test_engine.py`).
 - [ ] Probar reproducibilidad con semillas.
 - [ ] Probar que las medias muestrales de las distribuciones sean razonables.
 
@@ -382,6 +382,7 @@
 | 2026-11-22 | F0.1–F0.2 | Entorno virtual, dependencias y verificación inicial | Equipo | `e93abbc` |
 | 2026-11-22 | F0.3 | Estructura, README, `PLAN.md`, `AGENTS.md`, licencia y configuración | Equipo | `e93abbc` |
 | 2026-11-22 | F0.4 | Repositorio público creado y primer push | Equipo | https://github.com/AngBan2x/simulacion-colas |
+| 2026-11-23 | F1.1, F1.4 | Motor base de eventos discretos y pruebas de orden/desempate | Equipo | `engine.py`, `tests/test_engine.py`; 9 pruebas en verde |
 |  |  |  |  |  |
 
 ---

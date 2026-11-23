@@ -10,7 +10,7 @@ El proyecto incluye el motor de simulación, los experimentos estadísticos, los
 ## Estado actual
 
 - [x] Preparación del repositorio, licencia y documentación de trabajo.
-- [ ] Motor de eventos discretos.
+- [ ] Motor de eventos discretos: base implementada; distribuciones y estadística pendientes.
 - [ ] Modelo M/M/1 y validación analítica.
 - [ ] Simulador del SOC.
 - [ ] Experimentos y escenarios A/B.
