@@ -73,6 +73,9 @@ python -c "import simulacion_colas"
 
 # Informe, cuando exista
 latexmk -pdf -interaction=nonstopmode -halt-on-error docs/informe/main.tex
+
+# Flujo completo (resultados, figuras y tablas)
+python -m simulacion_colas all
 ```
 
 Además:
@@ -113,11 +116,11 @@ Además:
 
 ## 9. Herramientas del entorno
 
-- Python: 3.14.7 detectado al inicio.
-- pytest: instalado en el entorno virtual.
-- Git y GitHub CLI: disponibles.
+- Python: 3.14.6.
+- pytest: 9.2.0 en el entorno virtual.
+- Git 2.56.1 y GitHub CLI 2.105.0: disponibles.
 - LaTeX/MiKTeX: MiKTeX 25.12 instalado; `pdflatex` verificado.
-- Perl: Strawberry Perl 5.42.3 instalado; `latexmk` 4.89 verificado.
+- Perl: Strawberry Perl 5.42.3.1 instalado; `latexmk` 4.89 verificado.
 - Si `latexmk` no encuentra Perl, abrir una terminal nueva o comprobar que `perl` esté en el `PATH`.
 
 ## 10. Definición de terminado

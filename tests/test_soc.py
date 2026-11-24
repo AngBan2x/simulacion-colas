@@ -326,7 +326,7 @@ def test_soc_and_scenarios_cli_exports_and_figures(tmp_path: Path) -> None:
     ):
         assert (results_dir / filename).is_file()
 
-    for fig_name in ("soc_scenario_a.pdf", "soc_scenario_a.png", "soc_scenario_b.pdf", "soc_scenario_b.png"):
+    for fig_name in ("soc_base.pdf", "soc_base.png", "soc_scenario_a.pdf", "soc_scenario_a.png", "soc_scenario_b.pdf", "soc_scenario_b.png"):
         assert (figures_dir / fig_name).is_file()
 
     # Verificar el subcomando figures de forma independiente
@@ -340,7 +340,7 @@ def test_soc_and_scenarios_cli_exports_and_figures(tmp_path: Path) -> None:
             str(fig_only_dir),
         ]
     ) == 0
-    for fig_name in ("soc_scenario_a.pdf", "soc_scenario_a.png", "soc_scenario_b.pdf", "soc_scenario_b.png"):
+    for fig_name in ("soc_base.pdf", "soc_base.png", "soc_scenario_a.pdf", "soc_scenario_a.png", "soc_scenario_b.pdf", "soc_scenario_b.png"):
         assert (fig_only_dir / fig_name).is_file()
 
     with (results_dir / "soc_scenarios_replicas.csv").open(encoding="utf-8", newline="") as file:
@@ -379,6 +379,8 @@ def test_versioned_soc_results_and_figures_are_consistent() -> None:
     for fig_name in (
         "mm1_validation.pdf",
         "mm1_validation.png",
+        "soc_base.pdf",
+        "soc_base.png",
         "soc_scenario_a.pdf",
         "soc_scenario_a.png",
         "soc_scenario_b.pdf",

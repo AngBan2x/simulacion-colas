@@ -14,27 +14,42 @@ El proyecto incluye el motor de simulación, los experimentos estadísticos, los
 - [x] Modelo M/M/1 y validación analítica.
 - [x] Simulador del SOC.
 - [x] Experimentos y escenarios A/B.
-- [ ] Informe técnico en LaTeX y PDF.
+- [x] Informe técnico en LaTeX y PDF.
+- [x] Calidad, documentación final y publicación de la versión `v1.0.0`.
 
-El avance detallado se mantiene en [`PLAN.md`](PLAN.md). Para consultar solo lo pendiente, revisa [`TODO.md`](TODO.md).
+El avance detallado se mantiene en [`PLAN.md`](PLAN.md). Para consultar solo lo pendiente, revisa [`TODO.md`](TODO.md). El informe final está en [`docs/informe/main.pdf`](docs/informe/main.pdf).
 
 ## Requisitos
 
 - Python 3.12 o superior.
 - Git.
-- GitHub CLI, solo para publicar el repositorio.
+- GitHub CLI, solo para publicar el repositorio y crear el release.
 - MiKTeX o una instalación equivalente de LaTeX, para compilar el informe.
 - Perl, requerido por `latexmk`.
 
 ### Entorno validado
 
-- Python 3.14.7
+- Python 3.14.6
 - Git 2.56.1
-- GitHub CLI 2.97.0
+- GitHub CLI 2.105.0
 - pytest 9.2.0
 - MiKTeX 25.12 con `pdflatex` verificado
-- Strawberry Perl 5.42.3
+- Strawberry Perl 5.42.3.1
 - `latexmk` 4.89 compilando correctamente en español
+
+### Instalación de LaTeX en Windows
+
+Si `pdflatex` no está disponible, instala MiKTeX, Strawberry Perl y GitHub CLI
+con `winget`:
+
+```powershell
+winget install --id MiKTeX.MiKTeX --exact --accept-package-agreements --accept-source-agreements
+winget install --id StrawberryPerl.StrawberryPerl --exact --accept-package-agreements --accept-source-agreements
+winget install --id GitHub.cli --exact --accept-package-agreements --accept-source-agreements
+```
+
+Cierra y abre una terminal nueva para que se actualice el `PATH`. Verifica con
+`pdflatex --version`, `latexmk --version` y `gh --version`.
 
 ## Instalación
 
@@ -57,7 +72,7 @@ El modelo M/M/1 se ejecuta con el subcomando `mm1`. Por defecto usa 50 réplicas
 un warm-up de 1.000 minutos, un horizonte de 30.000 minutos y semillas 1 a 50.
 
 ```powershell
-python -m simulacion_colas.cli mm1
+python -m simulacion_colas mm1
 ```
 
 También queda disponible el comando instalado:
@@ -90,6 +105,7 @@ El modelo del Centro de Triaje (SOC) y sus escenarios se ejecutan con:
 python -m simulacion_colas soc
 python -m simulacion_colas scenarios
 python -m simulacion_colas figures
+python -m simulacion_colas report
 python -m simulacion_colas all
 ```
 
@@ -105,14 +121,16 @@ Opciones principales de `soc` y `scenarios`:
 --no-drain                  desactiva el drenaje al final del horizonte
 --results-dir DIR           carpeta de salida (por defecto results/)
 --figures-dir DIR           carpeta de figuras (por defecto figures/, en scenarios y figures)
+--tables-dir DIR            carpeta de tablas LaTeX (por defecto docs/informe/tables/, en report y all)
 --skip-figures              omite la generación de figuras al final de scenarios/all
 ```
 
-Archivos generados por el SOC y los escenarios:
+Archivos generados por el SOC, los escenarios y el informe:
 
 - `results/soc_base_replicas.csv`, `results/soc_base_summary.csv`, `results/soc_base_summary.json`.
 - `results/soc_scenarios_replicas.csv`, `results/soc_scenarios_summary.csv`, `results/soc_scenarios_comparisons.csv`, `results/soc_scenarios_summary.json`.
-- `figures/mm1_validation.{pdf,png}`, `figures/soc_scenario_a.{pdf,png}`, `figures/soc_scenario_b.{pdf,png}`.
+- `figures/mm1_validation.{pdf,png}`, `figures/soc_base.{pdf,png}`, `figures/soc_scenario_a.{pdf,png}`, `figures/soc_scenario_b.{pdf,png}`.
+- `docs/informe/tables/*.tex` y `docs/informe/main.pdf`.
 
 ## Modelo M/M/1
 
@@ -177,14 +195,15 @@ simulacion-colas/
 │       ├── mm1.py            # Modelo M/M/1 y validación analítica
 │       ├── soc.py            # Simulador del SOC y escenarios A/B
 │       ├── figures.py        # Generación de figuras PDF/PNG con matplotlib
-│       └── cli.py            # Subcomandos mm1, soc, scenarios, figures y all
-├── tests/
+│       ├── report.py         # Tablas LaTeX generadas desde results/
+│       └── cli.py            # Subcomandos mm1, soc, scenarios, figures, report y all
+├── tests/                    # 65 pruebas (motor, modelos, estadística, informe)
 ├── scripts/
 │   └── sync_todos.py        # Regenera TODO.md desde PLAN.md
 ├── results/                 # Resultados resumidos generados
 ├── figures/                 # Figuras generadas
 └── docs/
-    └── informe/             # Fuente LaTeX y PDF final
+    └── informe/             # main.tex, secciones, tablas, PDF final
 ```
 
 ## Documentación
@@ -193,7 +212,31 @@ simulacion-colas/
 - [`PLAN.md`](PLAN.md): fases, tareas y estado de avance.
 - [`TODO.md`](TODO.md): vista rápida de las tareas pendientes.
 - [`AGENTS.md`](AGENTS.md): reglas de contribución para personas y agentes.
-- `docs/informe/main.pdf`: informe técnico final, pendiente de generar.
+- [`docs/informe/main.tex`](docs/informe/main.tex): fuente LaTeX del informe.
+- [`docs/informe/main.pdf`](docs/informe/main.pdf): informe técnico final (10 páginas).
+- [`docs/informe/tables/`](docs/informe/tables): tablas generadas desde `results/`.
+
+## Reproducción desde cero
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev,analysis]"
+pytest -q
+python -m simulacion_colas all
+latexmk -pdf -interaction=nonstopmode -halt-on-error docs/informe/main.tex
+```
+
+Semillas y diseño:
+
+- M/M/1: semilla base `1`, 50 réplicas con semillas `1..50`, warm-up `1.000 min`, horizonte `30.000 min`.
+- SOC: semilla base `1`, 30 réplicas con semillas `1..30` y números aleatorios comunes entre escenarios, warm-up `1.440 min`, ventana medida `43.200 min` (30 días) y drenaje activo.
+- Escenarios: base (`s=3, K=8, λ2=0,10`), A (`λ2=0,14`), B1 (`K=16`), B2 (`s=4`) y las dos sensibilidades de B bajo la demanda de A.
+
+El comando `all` regenera `results/`, `figures/` y `docs/informe/tables/`. La
+verificación de reproducibilidad confirmó hashes idénticos en los CSV, JSON y
+tablas al repetir la campaña con las mismas semillas.
 
 Para actualizar la vista de pendientes después de cambiar `PLAN.md`:
 

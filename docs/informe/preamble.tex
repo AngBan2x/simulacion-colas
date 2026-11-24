@@ -1,0 +1,42 @@
+% Preámbulo del informe técnico.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\usepackage{lmodern}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.42em}
+\graphicspath{{../../figures/}}
+
+\titleformat{\section}{\large\bfseries\color{black!80}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.1em}{0.5em}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.35em}
+
+\newcommand{\loss}{P_{\text{loss}}}
+\newcommand{\Wq}{W_q}
+\newcommand{\Lq}{L_q}
+\newcommand{\Wone}{W_1}
+\newcommand{\Wqone}{W_{q1}}
+\newcommand{\Wtwo}{W_2}
+\newcommand{\Wqtwo}{W_{q2}}
+
+\hypersetup{
+  pdftitle={Simulación de colas: servidor CI/CD M/M/1 y SOC con prioridades y buffer finito},
+  pdfauthor={Joshtin Mejías (31071016), Angel Bandres (29524378) y Andrés Crespo (31259533)},
+  pdfsubject={Simulación de eventos discretos},
+  pdfkeywords={simulación, colas, M/M/1, SOC, prioridad no expropiativa, buffer finito}
+}

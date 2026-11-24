@@ -9,7 +9,8 @@ Subcomandos disponibles:
 - ``scenarios``: ejecuta la suite completa del SOC (Caso Base, Escenario A,
   Escenario B y sensibilidad bajo sobrecarga) con semillas comunes (CRN).
 - ``figures``: genera las figuras PDF/PNG en ``figures/`` desde ``results/``.
-- ``all``: ejecuta ``mm1``, ``scenarios`` y ``figures`` en secuencia.
+- ``report``: genera las tablas LaTeX del informe desde ``results/``.
+- ``all``: ejecuta ``mm1``, ``scenarios``, ``figures`` y ``report`` en secuencia.
 
 Los resultados se escriben por defecto en ``results/`` y las figuras en ``figures/``.
 """
@@ -220,13 +221,34 @@ def build_parser() -> argparse.ArgumentParser:
     )
     figures.set_defaults(handler=_run_figures)
 
+    report = subparsers.add_parser(
+        "report",
+        help="Genera las tablas LaTeX del informe desde results/.",
+    )
+    report.add_argument(
+        "--results-dir",
+        type=Path,
+        default=Path("results"),
+        help="Carpeta de lectura de resultados CSV/JSON.",
+    )
+    report.add_argument(
+        "--tables-dir",
+        type=Path,
+        default=Path("docs/informe/tables"),
+        help="Carpeta donde se escriben las tablas .tex.",
+    )
+    report.set_defaults(handler=_run_report)
+
     run_all = subparsers.add_parser(
         "all",
-        help="Ejecuta M/M/1, escenarios del SOC y generación de figuras.",
+        help="Ejecuta M/M/1, escenarios del SOC, figuras y tablas del informe.",
     )
     run_all.add_argument("--seed", type=int, default=DEFAULT_BASE_SEED)
     run_all.add_argument("--results-dir", type=Path, default=Path("results"))
     run_all.add_argument("--figures-dir", type=Path, default=Path("figures"))
+    run_all.add_argument(
+        "--tables-dir", type=Path, default=Path("docs/informe/tables")
+    )
     run_all.add_argument("--skip-pilot", action="store_true")
     run_all.add_argument("--skip-figures", action="store_true")
     run_all.set_defaults(handler=_run_all)
@@ -236,7 +258,9 @@ def build_parser() -> argparse.ArgumentParser:
 
 def _write_csv(path: Path, rows: list[dict[str, object]], fieldnames: Sequence[str]) -> None:
     with path.open("w", encoding="utf-8", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=list(fieldnames))
+        writer = csv.DictWriter(
+            file, fieldnames=list(fieldnames), lineterminator="\n"
+        )
         writer.writeheader()
         for row in rows:
             writer.writerow(row)
@@ -587,6 +611,18 @@ def _run_figures(args: argparse.Namespace) -> int:
     return 0
 
 
+def _run_report(args: argparse.Namespace) -> int:
+    from .report import generate_report_tables
+
+    generated = generate_report_tables(
+        Path(args.results_dir),
+        Path(args.tables_dir),
+    )
+    for path in generated:
+        print(f"Tabla generada: {path}")
+    return 0
+
+
 def _run_all(args: argparse.Namespace) -> int:
     mm1_args = argparse.Namespace(
         replications=DEFAULT_REPLICATIONS,
@@ -614,6 +650,12 @@ def _run_all(args: argparse.Namespace) -> int:
         skip_figures=args.skip_figures,
     )
     _run_scenarios(scenarios_args)
+
+    report_args = argparse.Namespace(
+        results_dir=args.results_dir,
+        tables_dir=args.tables_dir,
+    )
+    _run_report(report_args)
     return 0
 
 

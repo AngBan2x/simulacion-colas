@@ -1,0 +1,27 @@
+\section{Anexo: reproducción del informe}
+
+Todos los resultados se regeneran desde el repositorio con Python 3.12 o
+superior. El núcleo de simulación usa solo la biblioteca estándar; las figuras
+requieren \texttt{matplotlib}. Los comandos exactos son:
+\begin{verbatim}
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e ".[dev,analysis]"
+python -m simulacion_colas all
+latexmk -pdf -interaction=nonstopmode -halt-on-error docs/informe/main.tex
+\end{verbatim}
+
+El comando \texttt{all} ejecuta el M/M/1 (50 réplicas), los seis escenarios del
+SOC (30 réplicas cada uno con semillas comunes), las figuras PDF/PNG y las
+tablas LaTeX. Los productos principales son:
+\begin{itemize}[leftmargin=1.2em,itemsep=0.1em]
+  \item \texttt{results/mm1\_*.csv} y \texttt{results/mm1\_summary.json}.
+  \item \texttt{results/soc\_base\_*} y \texttt{results/soc\_scenarios\_*}.
+  \item \texttt{figures/*.pdf} y \texttt{figures/*.png}.
+  \item \texttt{docs/informe/tables/*.tex} y \texttt{docs/informe/main.pdf}.
+\end{itemize}
+
+Las semillas base son $1$ para el M/M/1 y $1$ para el SOC; las réplicas usan
+semillas consecutivas. Las tablas y figuras se generan desde los CSV/JSON
+versionados, de modo que el informe y el repositorio comparten exactamente los
+mismos números.

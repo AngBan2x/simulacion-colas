@@ -1,0 +1,26 @@
+\title{\textbf{Simulación de colas: servidor CI/CD M/M/1 y SOC con\\ prioridades y buffer finito}}
+\author{Joshtin Mejías (31071016), Angel Bandres (29524378) y Andrés Crespo (31259533)\\[0.2em]
+\small Proyecto de Simulación de Colas --- Prof. Lisbeth Torres}
+\date{24 de noviembre de 2026}
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent
+Este informe documenta la construcción y validación de un simulador de eventos
+discretos para dos sistemas de líneas de espera. El primero es un servidor
+CI/CD modelado como M/M/1 con $\lambda=0{,}25$ trabajos/min, $\mu=1/3$ y
+$\rho=0{,}75$. El segundo es un Centro de Operaciones de Seguridad (SOC) con
+$s=3$ analistas, alertas críticas y preventivas, prioridad no expropiativa,
+servicios no exponenciales y un buffer finito de $K=8$ espacios. La simulación
+del M/M/1 reproduce los valores analíticos dentro de los intervalos de confianza
+del 95\,\% y satisface la Ley de Little. El SOC base presenta una pérdida de
+alertas de $0{,}385$\,\% y una utilización conjunta de $68{,}87$\,\%. El
+Escenario A, con un aumento del $40$\,\% en alertas preventivas, eleva la
+pérdida a $2{,}220$\,\% ($+477{,}0$\,\% relativo) sin saturar teóricamente a los
+analistas, pero con un fuerte aumento de la congestión. En el Escenario B,
+ampliar el buffer a $K=16$ y contratar un cuarto analista reducen la pérdida de
+forma similar bajo la demanda base; sin embargo, el cuarto analista reduce
+drásticamente los tiempos de espera y domina también bajo sobrecarga. Se
+recomienda contratar el cuarto analista manteniendo $K=8$.
+\end{abstract}

@@ -11,7 +11,9 @@ requires-python = ">=3.12"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
-    { name = "Angel (AngBan2x)" },
+    { name = "Joshtin Mejías (31071016)" },
+    { name = "Angel Bandres (29524378)" },
+    { name = "Andrés Crespo (31259533)" },
 ]
 dependencies = []
 

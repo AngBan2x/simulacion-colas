@@ -1,0 +1,44 @@
+\section{Metodología de simulación}
+
+\subsection{Motor de eventos discretos}
+
+El núcleo se implementó en Python con la biblioteca estándar, sin SimPy. El
+motor mantiene una cola de eventos con \texttt{heapq} y procesa cada evento en
+orden de tiempo; los empates se resuelven por prioridad y, finalmente, por
+secuencia FIFO. El reloj avanza al instante del siguiente evento, de modo que
+no se descompone el tiempo en pasos fijos. El motor está separado de los
+modelos: recibe callbacks que programan llegadas, salidas y eventos de control.
+
+\subsection{Generadores aleatorios y reproducibilidad}
+
+Cada fuente de aleatoriedad usa un flujo independiente: llegadas Tipo~1,
+llegadas Tipo~2, servicios Tipo~1 y servicios Tipo~2. Las réplicas usan
+semillas explícitas consecutivas a partir de una semilla base
+($1,2,\ldots,N$). Para comparar escenarios se usan \emph{números aleatorios
+comunes} (CRN): las réplicas de todos los escenarios comparten las mismas
+semillas, lo que reduce la varianza de las diferencias pareadas. Las
+distribuciones se muestrean por transformada inversa, lo que permite
+reproducir exactamente una corrida con la misma semilla.
+
+\subsection{Diseño experimental}
+
+El M/M/1 se ejecuta con 50 réplicas de 30\,000 minutos y un warm-up de 1\,000
+minutos; el piloto de warm-up compara 0, 500, 1\,000, 2\,000 y 5\,000 minutos
+con 10 réplicas y una tolerancia del $0{,}5$\,\%. El SOC se ejecuta con 30
+réplicas de 30 días de operación tras 1 día de warm-up (1\,440 minutos), es
+decir, una ventana medida de 43\,200 minutos por réplica. Al final del
+horizonte se drena el sistema: las alertas admitidas que siguen en cola se
+terminan de atender, lo que evita censurar sus tiempos de espera y de
+resolución. Los resultados principales usan drenaje; la opción \texttt{--no-drain}
+permite evaluar la sensibilidad.
+
+\subsection{Estimación e incertidumbre}
+
+Para cada réplica se calculan las métricas de tiempo y de longitud de cola con
+acumuladores ponderados por tiempo y con muestras por alerta. Luego se obtiene
+la media entre réplicas, la desviación estándar, el error estándar y un
+intervalo de confianza del 95\,\% con la distribución $t$ de Student. También
+se reporta el error relativo y, para comparaciones, la diferencia pareada
+``alternativa menos referencia'' con su intervalo de confianza. Todos los
+resultados, figuras y tablas del informe se generan desde los archivos
+versionados en \texttt{results/}; ninguna cifra se escribe a mano.

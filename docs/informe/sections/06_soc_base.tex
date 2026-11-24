@@ -1,0 +1,66 @@
+\section{Problema 2: Centro de Operaciones de Seguridad}
+
+\subsection{Parámetros del SOC}
+
+La Tabla~\ref{tab:soc-parametros} resume los seis escenarios ejecutados. El
+caso base usa $\lambda_2=0{,}10$; el Escenario A eleva esa tasa a $0{,}14$
+($+40$\,\%). El Escenario B compara $K=16$ con $s=4$ bajo la demanda base y,
+como análisis de sensibilidad, bajo la sobrecarga del Escenario A. En todos los
+casos $K$ es la capacidad de la cola: la capacidad total es $s+K$.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_soc_parametros}
+\caption{Parámetros y carga ofrecida de los escenarios del SOC.}
+\label{tab:soc-parametros}
+\end{table}
+
+\subsection{Resultados del caso base}
+
+La Tabla~\ref{tab:soc-base} presenta las métricas del caso base con 30
+réplicas. La pérdida global es $\loss=0{,}385$\,\%; la de las alertas críticas
+es $0{,}431$\,\% y la de las preventivas $0{,}362$\,\%. La utilización conjunta
+de los tres analistas es $68{,}87$\,\%, coherente con la carga ofrecida de
+$69{,}44$\,\%. Las alertas críticas esperan en promedio $2{,}27$ minutos,
+mientras que las preventivas esperan $6{,}42$ minutos: la prioridad no
+expropiativa reduce la espera crítica, pero no la elimina porque un servicio
+en curso no se interrumpe.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_soc_base}
+\caption{Métricas del SOC base ($s=3$, $K=8$, $\lambda_2=0{,}10$) con 30 réplicas e IC95\,\%.}
+\label{tab:soc-base}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{soc_base.pdf}
+\caption{SOC base: probabilidad de bloqueo, utilización y tiempos medios.}
+\label{fig:soc-base}
+\end{figure}
+
+La Tabla~\ref{tab:conteos} desglosa los conteos medios por tipo de alerta y la
+Tabla~\ref{tab:conservacion} verifica las invariantes de conservación en las 30
+réplicas. En todas se cumple que las llegadas son iguales a las admitidas más
+las bloqueadas, que las admitidas son iguales a las completadas más las
+remanentes, y que nunca se superan los tres analistas ni los ocho espacios de
+cola.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_conteos}
+\caption{Conteos medios por réplica en el SOC base.}
+\label{tab:conteos}
+\end{table}
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_conservacion}
+\caption{Verificación de invariantes de capacidad y conservación en las 30 réplicas del SOC base.}
+\label{tab:conservacion}
+\end{table}

@@ -1,0 +1,24 @@
+\section{Introducción y objetivos}
+
+La simulación de eventos discretos permite analizar sistemas de espera cuya
+dinámica exacta es difícil de resolver analíticamente. Este proyecto aborda dos
+situaciones con características distintas. La primera es un servidor único de
+integración y pruebas continuas (CI/CD) que recibe trabajos de forma Poisson,
+los procesa en orden FIFO y tiene cola prácticamente ilimitada; su naturaleza
+M/M/1 permite validar el simulador contra fórmulas exactas. La segunda es un
+Centro de Operaciones de Seguridad (SOC) con tres analistas en paralelo, dos
+clases de alertas con prioridad no expropiativa, distribuciones de servicio no
+exponenciales y un buffer físico estrictamente finito, donde el bloqueo de
+alertas es una consecuencia operativa relevante.
+
+Los objetivos son: (i) implementar un motor de eventos discretos reproducible y
+separado de los modelos; (ii) modelar y validar el servidor M/M/1; (iii)
+simular el SOC y estimar sus métricas con incertidumbre estadística; (iv)
+responder los Escenarios A y B planteados por la gerencia; y (v) dejar un
+proceso reproducible que genere resultados, figuras y tablas del informe desde
+las mismas semillas.
+
+El alcance se limita a los dos sistemas descritos y a los supuestos del
+enunciado. No se modelan abandono de clientes, vacaciones de servidores,
+reintentos ni cambios de capacidad durante la operación. Todas las unidades de
+tiempo están en minutos.

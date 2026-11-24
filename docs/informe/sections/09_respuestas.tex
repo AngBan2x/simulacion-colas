@@ -1,0 +1,48 @@
+\section{Respuestas directas a las preguntas de la profesora}
+
+\begin{description}[leftmargin=1.2em,style=nextline,itemsep=0.35em]
+  \item[1.a) Tasas, estabilidad y justificación del M/M/1.]
+  $\lambda=0{,}25$ trabajos/min y $\mu=1/3$ trabajos/min, en minutos. Entonces
+  $\rho=\lambda/\mu=0{,}75<1$: el sistema es estable. Es M/M/1 porque las
+  llegadas son Poisson, los servicios exponenciales, hay un solo servidor, la
+  disciplina es FIFO y la cola es prácticamente ilimitada.
+
+  \item[1.b) Simulador de eventos discretos.]
+  Implementado con un motor propio basado en \texttt{heapq}, sin SimPy, con
+  reloj de eventos, flujos aleatorios independientes y semillas explícitas.
+
+  \item[1.c) Métricas del M/M/1 tras el warm-up.]
+  Con 50 réplicas, warm-up de 1\,000 min y horizonte de 30\,000 min:
+  $L=3{,}0466$, $\Lq=2{,}2961$, $W=12{,}2045$ min y $\Wq=9{,}1973$ min.
+
+  \item[1.d) Ley de Little y comparación analítica.]
+  Los cocientes de Little son $0{,}999997$ y $0{,}999978$ (prácticamente 1).
+  Los cinco IC95\,\% contienen los valores analíticos
+  ($L=3$, $\Lq=2{,}25$, $W=12$, $\Wq=9$, $\rho=0{,}75$).
+
+  \item[2. Modelo del SOC.]
+  $s=3$ analistas, $K=8$ espacios de cola (capacidad total $11$), dos colas
+  FIFO por tipo, prioridad no expropiativa de las críticas, llegadas Poisson
+  independientes ($\lambda_1=0{,}05$, $\lambda_2=0{,}10$), servicio uniforme
+  $[15,25]$ para Tipo~1 y Weibull $(k=1{,}5,\beta=12)$ para Tipo~2. Las
+  críticas también pueden bloquearse si la cola está llena.
+
+  \item[2. Métricas del SOC a 30 días.]
+  $\Wone=22{,}260$ min, $\Wqone=2{,}267$ min, $\Wtwo=17{,}250$ min,
+  $\Wqtwo=6{,}417$ min, $\Lq=0{,}750$, utilización conjunta $68{,}87$\,\% y
+  $\loss=0{,}385$\,\%, calculadas solo sobre alertas admitidas.
+
+  \item[Escenario A.]
+  Al aumentar $\lambda_2$ un $40$\,\%, $\loss$ sube de $0{,}385$\,\% a
+  $2{,}220$\,\%: $+1{,}835$ pp, un aumento relativo del $477{,}0$\,\%. Los
+  analistas no se saturan teóricamente ($\rho_{\text{ofrecida}}=0{,}8389$,
+  utilización $81{,}65$\,\%), pero la congestión y la pérdida de alertas
+  críticas aumentan de forma severa.
+
+  \item[Escenario B.]
+  Bajo demanda base ambas alternativas reducen $\loss$ en más del $94$\,\% y
+  empatan estadísticamente. Bajo sobrecarga, $s=4$ reduce $\loss$ a
+  $0{,}129$\,\% frente a $0{,}395$\,\% con $K=16$. El cuarto analista también
+  minimiza las esperas en ambos regímenes. Recomendación: contratar el cuarto
+  analista y mantener $K=8$.
+\end{description}

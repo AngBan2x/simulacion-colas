@@ -1,0 +1,63 @@
+\section{Escenario B: ampliar buffer o contratar un cuarto analista}
+
+\subsection{Comparación bajo demanda base}
+
+La Tabla~\ref{tab:escenario-b-base} compara las dos alternativas con la demanda
+base. Ambas reducen la pérdida de alertas en más del $94$\,\%: $K=16$ deja
+$\loss=0{,}019$\,\% y $s=4$ deja $0{,}021$\,\%. La diferencia entre ambas es
+estadísticamente indistinguible: su intervalo de confianza del 95\,\% contiene
+el cero. Sin embargo, los tiempos de espera separan claramente las opciones.
+Con $K=16$ las esperas incluso aumentan respecto del caso base
+($\Wqone=2{,}344$ y $\Wqtwo=7{,}183$ min), porque el buffer más grande permite
+acumular más alertas. Con $s=4$ las esperas caen a
+$\Wqone=0{,}659$ y $\Wqtwo=1{,}282$ min.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_escenario_b_demanda}
+\caption{Escenario B bajo demanda base: media $\pm$ semiancho del IC95\,\%.}
+\label{tab:escenario-b-base}
+\end{table}
+
+\subsection{Sensibilidad bajo la sobrecarga del Escenario A}
+
+La Tabla~\ref{tab:escenario-b-sobrecarga} repite la comparación con
+$\lambda_2=0{,}14$. Aquí la diferencia en pérdida sí es clara: $K=16$ deja
+$\loss=0{,}395$\,\%, mientras que $s=4$ la reduce a $0{,}129$\,\%. La
+diferencia pareada es $-0{,}266$ puntos porcentuales, con IC95\,\%
+$[-0{,}339;-0{,}193]$. Además, $s=4$ mantiene la espera preventiva en
+$2{,}519$ minutos frente a $17{,}414$ minutos con $K=16$.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_escenario_b_sobrecarga}
+\caption{Escenario B bajo la sobrecarga del Escenario A: media $\pm$ semiancho del IC95\,\%.}
+\label{tab:escenario-b-sobrecarga}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{soc_scenario_b.pdf}
+\caption{Escenario B: pérdida de alertas y esperas bajo demanda base y bajo sobrecarga.}
+\label{fig:escenario-b}
+\end{figure}
+
+\subsection{Recomendación}
+
+\textbf{¿Cuál alternativa reduce más drásticamente las alertas perdidas?} Bajo
+la demanda base, ambas son equivalentes en pérdida. Bajo la sobrecarga
+previsible del Escenario A, el cuarto analista es claramente superior
+($0{,}129$\,\% frente a $0{,}395$\,\%). \textbf{¿Cuál optimiza mejor los
+tiempos de espera?} El cuarto analista, en ambos regímenes: reduce la espera
+crítica un $71{,}9$\,\% y la preventiva un $82{,}2$\,\% bajo demanda base;
+bajo sobrecarga, reduce la espera preventiva de $17{,}414$ a $2{,}519$ minutos.
+
+La razón es estructural: ampliar el buffer no añade capacidad de servicio,
+solo permite que las alertas esperen más tiempo antes de bloquearse. Cuando el
+sistema se congestiona, el buffer se llena y la pérdida reaparece, mientras que
+los tiempos de espera crecen. Un analista adicional aumenta la capacidad de
+servicio, reduce la utilización por analista y disminuye simultáneamente
+pérdidas y esperas. Por ello, \textbf{se recomienda contratar el cuarto
+analista manteniendo $K=8$} ($s=4$, $K=8$).

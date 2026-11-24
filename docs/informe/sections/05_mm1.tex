@@ -1,0 +1,63 @@
+\section{Problema 1: validación del servidor CI/CD M/M/1}
+
+\subsection{Parámetros y justificación del modelo}
+
+Los registros indican un trabajo cada 4 minutos en promedio, es decir,
+$\lambda=0{,}25$ trabajos/min, y una duración media de servicio de 3 minutos,
+$\mu=1/3$ trabajos/min. Los tiempos entre llegadas son exponenciales
+(proceso Poisson), los servicios son exponenciales, hay un único servidor, la
+disciplina es FIFO y la cola es prácticamente ilimitada. Esas cuatro
+propiedades definen un M/M/1. La Tabla~\ref{tab:mm1-parametros} resume los
+parámetros y las cantidades analíticas.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_mm1_parametros}
+\caption{Parámetros y valores analíticos del servidor CI/CD M/M/1.}
+\label{tab:mm1-parametros}
+\end{table}
+
+\subsection{Warm-up}
+
+La Tabla~\ref{tab:warmup} muestra el piloto de período transitorio. Las
+diferencias de $L$ y $W$ respecto de la corrida de 5\,000 minutos ya son
+inferiores al $0{,}5$\,\% desde 1\,000 minutos; por eso se adopta ese warm-up.
+El valor de 1\,000 minutos se resalta en negrita.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_warmup}
+\caption{Piloto de warm-up del M/M/1 con 10 réplicas por candidato.}
+\label{tab:warmup}
+\end{table}
+
+\subsection{Resultados y validación}
+
+La Tabla~\ref{tab:mm1-validacion} compara las estimaciones con las fórmulas
+analíticas. Los cinco intervalos de confianza del 95\,\% contienen su valor
+teórico. Los errores relativos van de $0{,}5$\,\% a $3{,}2$\,\%, valores
+razonables para un horizonte de 30\,000 minutos. La Figura~\ref{fig:mm1}
+presenta la comparación gráfica y el piloto de warm-up.
+
+\begin{table}[H]
+\centering
+\small
+\input{tables/tab_mm1_validacion}
+\caption{Validación del M/M/1 con 50 réplicas, warm-up de 1\,000 min y horizonte de 30\,000 min.}
+\label{tab:mm1-validacion}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{mm1_validation.pdf}
+\caption{Validación del M/M/1: cantidades medias, tiempos medios y piloto de warm-up.}
+\label{fig:mm1}
+\end{figure}
+
+La Ley de Little se cumple numéricamente: los cocientes
+$L/(\lambda W)$ y $L_q/(\lambda W_q)$ son $0{,}999997$ y $0{,}999978$,
+respectivamente, es decir, difieren de la unidad en menos de $0{,}003$\,\%.
+Esto confirma la consistencia interna del simulador y la correcta
+implementación de los acumuladores.

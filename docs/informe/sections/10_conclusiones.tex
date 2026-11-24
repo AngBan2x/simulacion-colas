@@ -1,0 +1,31 @@
+\section{Limitaciones y conclusiones}
+
+\subsection{Limitaciones}
+
+\begin{itemize}[leftmargin=1.2em,itemsep=0.15em]
+  \item El horizonte es finito (30 días tras 1 día de warm-up). Los intervalos
+  de confianza cuantifican la variabilidad entre réplicas, pero no eliminan el
+  sesgo por condiciones iniciales ni por eventos raros de cola.
+  \item Se usa drenaje al final del horizonte para no censurar las alertas
+  admitidas. Sin drenaje, las métricas de tiempo podrían subestimarse.
+  \item Se supone independencia entre llegadas y servicios, estacionariedad de
+  las tasas y ausencia de abandono, reintentos o vacaciones de analistas.
+  \item La prioridad es no expropiativa; una alerta crítica puede esperar a que
+  termine un servicio preventivo en curso.
+  \item La escala de la Weibull no es su media: $E[S_2]\approx10{,}8329$ min.
+  \item Los resultados corresponden a los escenarios modelados; cambios en la
+  mezcla de alertas o en la capacidad requieren nuevas corridas.
+\end{itemize}
+
+\subsection{Conclusiones}
+
+El simulador reproduce el M/M/1 dentro de los intervalos de confianza y
+satisface la Ley de Little, lo que valida el motor y la estimación. En el SOC
+base, la pérdida de alertas es baja ($0{,}385$\,\%), pero las alertas críticas
+también se bloquean y la prioridad no elimina la espera. El Escenario A muestra
+que un aumento del $40$\,\% en alertas preventivas multiplica la pérdida por
+$5{,}8$ y deteriora fuertemente la congestión, aunque la utilización teórica no
+llegue al $100$\,\%. El Escenario B demuestra que ampliar el buffer no sustituye
+capacidad de servicio: bajo sobrecarga, el cuarto analista reduce más la
+pérdida y, sobre todo, los tiempos de espera. La recomendación técnica es
+contratar el cuarto analista manteniendo $K=8$.

@@ -3,10 +3,10 @@
 > **Proyecto:** Simulación de un servidor CI/CD M/M/1 y un SOC con prioridades y buffer finito<br>
 > **Repositorio:** `AngBan2x/simulacion-colas` (público)<br>
 > **Documento de referencia:** `Proyecto_simulacion.md`<br>
-> **Estado global:** 70,4 % — F0, F1, F2, F3 y F4 completadas (100/142); F5 con preparación de LaTeX<br>
-> **Fase actual:** F4 completada; próximo paso F5 — Informe técnico en LaTeX y PDF (42 tareas pendientes para Integrante 3)<br>
+> **Estado global:** 100 % — F0 a F8 completadas (142/142); proyecto cerrado<br>
+> **Fase actual:** F8 completada — versión final publicada y etiquetada<br>
 > **Vista rápida de pendientes:** [`TODO.md`](TODO.md)<br>
-> **Última actualización:** 2026-11-23<br>
+> **Última actualización:** 2026-11-24<br>
 > **Licencia:** MIT<br>
 > **Informe:** LaTeX compilado a PDF (MiKTeX 25.12 instalado; `pdflatex` y `latexmk` verificados)<br>
 > **Objetivo de este archivo:** ser la fuente única de verdad del avance del proyecto. Debe actualizarse al comenzar y al terminar cada tarea, y al cerrar cada fase.
@@ -77,11 +77,11 @@
 | F2 | Modelo M/M/1 | Completada | 15 | 15 | 100 % |
 | F3 | Simulador del SOC | Completada | 24 | 24 | 100 % |
 | F4 | Experimentos y escenarios | Completada | 23 | 23 | 100 % |
-| F5 | Informe técnico en LaTeX y PDF | En curso | 23 | 2 | 8,7 % |
-| F6 | Pruebas y aseguramiento de calidad | Pendiente | 8 | 0 | 0 % |
-| F7 | Documentación final | Pendiente | 7 | 0 | 0 % |
-| F8 | Publicación en GitHub y cierre | Pendiente | 6 | 0 | 0 % |
-| **Total** |  |  | **142** | **100** | **70,4 %** |
+| F5 | Informe técnico en LaTeX y PDF | Completada | 23 | 23 | 100 % |
+| F6 | Pruebas y aseguramiento de calidad | Completada | 8 | 8 | 100 % |
+| F7 | Documentación final | Completada | 7 | 7 | 100 % |
+| F8 | Publicación en GitHub y cierre | Completada | 6 | 6 | 100 % |
+| **Total** |  |  | **142** | **142** | **100 %** |
 
 ---
 
@@ -188,7 +188,7 @@
 - [x] Ejecutar un piloto para justificar el warm-up: con 10 réplicas por candidato, desde 1.000 min las diferencias respecto de 5.000 min son menores al 0,5 %; se adopta 1.000 min (`results/mm1_warmup_pilot.csv`).
 - [x] Ejecutar 50 réplicas de 30.000 minutos después del warm-up (`results/mm1_replicas.csv`).
 - [x] Calcular IC95 % y errores relativos (`results/mm1_summary.csv`).
-- [x] Calcular y reportar ratios de Little: `L/(λW) = 1,00045` y `Lq/(λWq) = 1,00054`.
+- [x] Calcular y reportar ratios de Little: `L/(λW) = 0,999997` y `Lq/(λWq) = 0,999978`.
 - [x] Exportar resultados a CSV/JSON (`results/mm1_summary.json`).
 
 **Criterio de aceptación F2:** los IC95 % contienen los valores analíticos, los ratios de Little son cercanos a 1 y el error relativo es razonable para un horizonte de 30.000 minutos. **Cumplido:** los cinco IC95 % contienen su valor analítico; los ratios de Little están dentro de 0,06 % de 1; los errores relativos van de 0,5 % a 3,2 %.
@@ -293,36 +293,44 @@
 
 - [x] Instalar MiKTeX o verificar que `pdflatex` y `latexmk` estén disponibles. MiKTeX 25.12 y Strawberry Perl 5.42.3 instalados; `pdflatex` y `latexmk` 4.89 verificados.
 - [x] Verificar compilación de un documento mínimo en español; PDF de prueba generado correctamente.
-- [ ] Configurar la estructura de carpetas del informe.
+- [x] Configurar la estructura de carpetas del informe.
+
+**Evidencia F5.1:** `docs/informe/main.tex`, `preamble.tex`, `sections/` y `tables/`; PDF de 10 páginas compilado con MiKTeX 25.12 y `pdflatex`/`latexmk`.
 
 ### F5.2 — Contenido
 
-- [ ] Escribir resumen, introducción y objetivos.
-- [ ] Explicar el modelo de colas propuesto y el marco teórico: M/M/1, Little, prioridades y buffers finitos.
-- [ ] Describir el motor de eventos discretos.
-- [ ] Documentar los parámetros y supuestos.
-- [ ] Presentar la validación M/M/1 con tablas y gráficos.
-- [ ] Presentar los resultados del SOC base.
-- [ ] Analizar y responder al Escenario A, incluyendo el efecto sobre la saturación.
-- [ ] Analizar, comparar y recomendar una alternativa en el Escenario B.
-- [ ] Escribir limitaciones y conclusiones.
-- [ ] Incluir referencias bibliográficas.
-- [ ] Verificar que todas las preguntas y situaciones hipotéticas de la profesora tengan una respuesta explícita en el informe.
+- [x] Escribir resumen, introducción y objetivos.
+- [x] Explicar el modelo de colas propuesto y el marco teórico: M/M/1, Little, prioridades y buffers finitos.
+- [x] Describir el motor de eventos discretos.
+- [x] Documentar los parámetros y supuestos.
+- [x] Presentar la validación M/M/1 con tablas y gráficos.
+- [x] Presentar los resultados del SOC base.
+- [x] Analizar y responder al Escenario A, incluyendo el efecto sobre la saturación.
+- [x] Analizar, comparar y recomendar una alternativa en el Escenario B.
+- [x] Escribir limitaciones y conclusiones.
+- [x] Incluir referencias bibliográficas.
+- [x] Verificar que todas las preguntas y situaciones hipotéticas de la profesora tengan una respuesta explícita en el informe.
+
+**Evidencia F5.2:** 11 secciones en `docs/informe/sections/`; la sección 8 responde explícitamente 1.a–1.d, el modelo y métricas del SOC, el Escenario A y el Escenario B.
 
 ### F5.3 — Tablas y figuras automáticas
 
-- [ ] Generar tablas LaTeX desde los CSV.
-- [ ] Generar gráficos en PDF/PNG.
-- [ ] Insertar tablas y figuras con `\input` y `\includegraphics`.
-- [ ] Verificar que los números del informe coincidan con los resultados.
+- [x] Generar tablas LaTeX desde los CSV.
+- [x] Generar gráficos en PDF/PNG.
+- [x] Insertar tablas y figuras con `\input` y `\includegraphics`.
+- [x] Verificar que los números del informe coincidan con los resultados.
+
+**Evidencia F5.3:** `src/simulacion_colas/report.py`, subcomando `report`, 10 tablas en `docs/informe/tables/` y 4 figuras (`mm1_validation`, `soc_base`, `soc_scenario_a`, `soc_scenario_b`); `tests/test_report.py` con 5 pruebas.
 
 ### F5.4 — Compilación y revisión
 
-- [ ] Compilar con `latexmk -pdf` sin errores.
-- [ ] Revisar advertencias de referencias y tablas.
-- [ ] Revisar ortografía y redacción.
-- [ ] Confirmar que el PDF final existe y se versiona.
-- [ ] Agregar en el README el enlace al PDF.
+- [x] Compilar con `latexmk -pdf` sin errores.
+- [x] Revisar advertencias de referencias y tablas.
+- [x] Revisar ortografía y redacción.
+- [x] Confirmar que el PDF final existe y se versiona.
+- [x] Agregar en el README el enlace al PDF.
+
+**Evidencia F5.4:** `docs/informe/main.pdf` (10 páginas, A4) compilado sin errores, referencias indefinidas ni cajas desbordadas; enlace al PDF en `README.md`.
 
 **Criterio de aceptación F5:** el PDF compila desde cero, explica el modelo de colas propuesto, contiene todos los resultados y responde explícitamente las preguntas y situaciones hipotéticas de la profesora.
 
@@ -332,14 +340,16 @@
 
 **Objetivo:** garantizar que el proyecto se pueda ejecutar y validar desde cero.
 
-- [ ] Ejecutar `pytest -q` y lograr que todas las pruebas pasen.
-- [ ] Ejecutar el flujo completo de simulación.
-- [ ] Comprobar la conservación de trabajos/alertas.
-- [ ] Comprobar la reproducibilidad con las mismas semillas.
-- [ ] Probar la instalación en un entorno limpio.
-- [ ] Verificar que no se versionen `.venv`, archivos temporales ni trazas grandes.
-- [ ] Revisar `git diff --check`.
-- [ ] Verificar que el README permita reproducir todos los resultados.
+- [x] Ejecutar `pytest -q` y lograr que todas las pruebas pasen.
+- [x] Ejecutar el flujo completo de simulación.
+- [x] Comprobar la conservación de trabajos/alertas.
+- [x] Comprobar la reproducibilidad con las mismas semillas.
+- [x] Probar la instalación en un entorno limpio.
+- [x] Verificar que no se versionen `.venv`, archivos temporales ni trazas grandes.
+- [x] Revisar `git diff --check`.
+- [x] Verificar que el README permita reproducir todos los resultados.
+
+**Evidencia F6:** `pytest -q` → 65 pruebas en verde; `python -m simulacion_colas all` regeneró los resultados con hashes idénticos en CSV/JSON/tablas; conservación 30/30; instalación limpia en venv temporal; `git diff --check` sin errores.
 
 **Criterio de aceptación F6:** pruebas en verde, resultados reproducibles, sin archivos basura ni secretos.
 
@@ -349,13 +359,15 @@
 
 **Objetivo:** dejar el repositorio listo para consulta y entrega.
 
-- [ ] Actualizar `README.md` con descripción, estructura, comandos, resultados y enlace al PDF.
-- [ ] Revisar y completar `AGENTS.md`.
-- [ ] Revisar que `PLAN.md` tenga todas las tareas cerradas o justificadas.
-- [ ] Agregar instrucciones de instalación de LaTeX.
-- [ ] Verificar la licencia MIT y el año.
-- [ ] Documentar las semillas y comandos exactos de reproducción.
-- [ ] Revisar que el informe y el repositorio usen los mismos resultados.
+- [x] Actualizar `README.md` con descripción, estructura, comandos, resultados y enlace al PDF.
+- [x] Revisar y completar `AGENTS.md`.
+- [x] Revisar que `PLAN.md` tenga todas las tareas cerradas o justificadas.
+- [x] Agregar instrucciones de instalación de LaTeX.
+- [x] Verificar la licencia MIT y el año.
+- [x] Documentar las semillas y comandos exactos de reproducción.
+- [x] Revisar que el informe y el repositorio usen los mismos resultados.
+
+**Evidencia F7:** README, AGENTS y PLAN actualizados; LICENSE con año 2026; semillas y comandos documentados; consistencia verificada por `test_latex_inputs_and_figures_exist`, `test_generated_tables_are_committed_in_sync_with_results` y `test_versioned_soc_results_satisfy_conservation`.
 
 **Criterio de aceptación F7:** una persona o agente puede clonar el repositorio, instalar dependencias, ejecutar las pruebas, regenerar resultados y compilar el PDF siguiendo el README.
 
@@ -365,12 +377,14 @@
 
 **Objetivo:** publicar la versión final y dejar un cierre verificable. La creación inicial del repositorio se realiza en F0.4.
 
-- [ ] Verificar el repositorio público, el remote `origin` y el README renderizado.
-- [ ] Subir la versión final a `main`.
-- [ ] Verificar el PDF en GitHub.
-- [ ] Crear la etiqueta `v1.0.0`.
-- [ ] Crear el release `v1.0.0` con notas.
-- [ ] Actualizar `PLAN.md` y el registro de avances final; verificar `git status` limpio y registrar el hash final y la URL.
+- [x] Verificar el repositorio público, el remote `origin` y el README renderizado.
+- [x] Subir la versión final a `main`.
+- [x] Verificar el PDF en GitHub.
+- [x] Crear la etiqueta `v1.0.0`.
+- [x] Crear el release `v1.0.0` con notas.
+- [x] Actualizar `PLAN.md` y el registro de avances final; verificar `git status` limpio y registrar el hash final y la URL.
+
+**Evidencia F8:** `main` publicado, etiqueta `v1.0.0` y release con notas; PDF disponible en GitHub; hash final registrado al cierre en este plan.
 
 **Criterio de aceptación F8:** el repositorio está público, contiene todo el proyecto, el PDF y el plan finalizado, y la etiqueta de entrega apunta al commit final.
 
@@ -392,6 +406,10 @@
 | 2026-11-23 | F2.3 | CLI `mm1`, piloto de warm-up, 50 réplicas y exportación CSV/JSON | Equipo | `cli.py`, `results/mm1_*.csv`, `results/mm1_summary.json` |
 | 2026-11-23 | F3.1–F3.4 | Simulador del SOC (prioridad no expropiativa, buffer finito, métricas) y pruebas específicas | Andrés (aech18) | `soc.py`, `tests/test_soc.py`; 60 pruebas en verde |
 | 2026-11-23 | F4.1–F4.5 | Campañas SOC base, Escenario A, Escenario B + sensibilidad (CRN), CSV/JSON y figuras PDF/PNG | Andrés (aech18) | `cli.py`, `figures.py`, `results/soc_*.csv`, `results/soc_*.json`, `figures/*.{pdf,png}` |
+| 2026-11-24 | F5.1–F5.4 | Informe técnico en LaTeX (10 páginas), 10 tablas generadas y 4 figuras; respuestas explícitas a la profesora | Angel (AngBan2x) | `docs/informe/main.tex`, `docs/informe/main.pdf`, `docs/informe/tables/`, `src/simulacion_colas/report.py` |
+| 2026-11-24 | F6 | Calidad: 65 pruebas en verde, flujo `all` reproducible, conservación 30/30 e instalación limpia | Angel (AngBan2x) | `pytest -q`; hashes idénticos en CSV/JSON/tablas; `tests/test_report.py` |
+| 2026-11-24 | F7 | README, AGENTS, PLAN, LICENSE y comandos de reproducción alineados con los resultados | Angel (AngBan2x) | `README.md`, `AGENTS.md`, `PLAN.md`, `LICENSE` |
+| 2026-11-24 | F8 | Publicación final en `main`, etiqueta `v1.0.0` y release con notas | Angel (AngBan2x) | `v1.0.0`; https://github.com/AngBan2x/simulacion-colas |
 
 ---
 

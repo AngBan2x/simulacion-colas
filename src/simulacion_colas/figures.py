@@ -431,6 +431,99 @@ def generate_soc_scenario_b_figure(
     return outputs
 
 
+def generate_soc_base_figure(
+    results_dir: Path,
+    figures_dir: Path,
+) -> list[Path]:
+    """Genera ``soc_base.{pdf,png}`` con las métricas del caso base."""
+    summary_path = results_dir / "soc_base_summary.json"
+    if not summary_path.is_file():
+        raise FileNotFoundError(f"No se encontró {summary_path}.")
+
+    payload = json.loads(summary_path.read_text(encoding="utf-8"))
+    metrics = payload["metrics"]
+    parameters = payload["parameters"]
+
+    plt = _load_matplotlib()
+    fig, axes = plt.subplots(1, 3, figsize=(13.8, 4.4))
+
+    # Panel A: probabilidad de bloqueo global y por tipo
+    ax0 = axes[0]
+    loss_keys = ["P_loss", "P_loss1", "P_loss2"]
+    loss_labels = ["Global", "Críticas (T1)", "Preventivas (T2)"]
+    loss_values = [100.0 * metrics[k]["mean"] for k in loss_keys]
+    loss_hw = [100.0 * metrics[k]["half_width"] for k in loss_keys]
+    x = list(range(len(loss_keys)))
+    ax0.bar(x, loss_values, yerr=loss_hw, capsize=4, width=0.55, color="#2b6cb0", alpha=0.85)
+    for idx, value in enumerate(loss_values):
+        ax0.text(
+            idx,
+            value + loss_hw[idx] + 0.03,
+            f"{value:.3f}%",
+            ha="center",
+            va="bottom",
+            fontsize=8.0,
+        )
+    ax0.set_xticks(x, loss_labels)
+    ax0.set_ylabel("Probabilidad de bloqueo (%)")
+    ax0.set_title("Pérdida de alertas (P_loss)")
+    ax0.set_ylim(0, max(v + h for v, h in zip(loss_values, loss_hw)) * 1.45)
+
+    # Panel B: utilización efectiva frente a carga ofrecida
+    ax1 = axes[1]
+    effective = 100.0 * metrics["utilization"]["mean"]
+    effective_hw = 100.0 * metrics["utilization"]["half_width"]
+    offered = 100.0 * parameters["offered_utilization"]
+    ax1.bar(
+        [0],
+        [effective],
+        yerr=[effective_hw],
+        capsize=5,
+        width=0.42,
+        color="#2f855a",
+        label="Utilización efectiva (IC95 %)",
+    )
+    ax1.scatter([0], [offered], marker="D", s=55, color="#1a202c", zorder=5, label="Carga ofrecida teórica")
+    ax1.axhline(100.0, color="#c53030", linestyle="--", linewidth=1.2, label="Saturación (100 %)")
+    ax1.text(0, effective + effective_hw + 2.0, f"{effective:.2f}%", ha="center", va="bottom", fontsize=8.0)
+    ax1.set_xticks([0], ["Caso base"])
+    ax1.set_ylabel("Utilización conjunta (%)")
+    ax1.set_xlim(-0.7, 0.7)
+    ax1.set_ylim(0, 112)
+    ax1.set_title("Utilización de los 3 analistas")
+    ax1.legend(loc="lower right", frameon=True, fontsize=7.5)
+
+    # Panel C: tiempos medios de espera y resolución
+    ax2 = axes[2]
+    time_keys = ["Wq1", "W1", "Wq2", "W2"]
+    time_values = [metrics[k]["mean"] for k in time_keys]
+    time_hw = [metrics[k]["half_width"] for k in time_keys]
+    xt = list(range(len(time_keys)))
+    ax2.bar(xt, time_values, yerr=time_hw, capsize=4, width=0.55, color="#dd6b20", alpha=0.85)
+    for idx, value in enumerate(time_values):
+        ax2.text(
+            idx,
+            value + time_hw[idx] + 0.4,
+            f"{value:.2f}",
+            ha="center",
+            va="bottom",
+            fontsize=8.0,
+        )
+    ax2.set_xticks(xt, ["Wq1", "W1", "Wq2", "W2"])
+    ax2.set_ylabel("Minutos")
+    ax2.set_title("Tiempos medios (solo admitidas)")
+    ax2.set_ylim(0, max(v + h for v, h in zip(time_values, time_hw)) * 1.25)
+
+    fig.suptitle(
+        f"SOC — Caso base (s=3, K=8, λ2=0,10/min; {payload['design']['replications']} réplicas, IC95 %)",
+        fontsize=11.5,
+        fontweight="bold",
+    )
+    outputs = _save_figure(fig, figures_dir, "soc_base")
+    plt.close(fig)
+    return outputs
+
+
 def generate_all_figures(
     results_dir: Path = Path("results"),
     figures_dir: Path = Path("figures"),
@@ -439,6 +532,8 @@ def generate_all_figures(
     generated: list[Path] = []
     if (results_dir / "mm1_summary.json").is_file():
         generated.extend(generate_mm1_validation_figure(results_dir, figures_dir))
+    if (results_dir / "soc_base_summary.json").is_file():
+        generated.extend(generate_soc_base_figure(results_dir, figures_dir))
     if (results_dir / "soc_scenarios_summary.json").is_file():
         generated.extend(generate_soc_scenario_a_figure(results_dir, figures_dir))
         generated.extend(generate_soc_scenario_b_figure(results_dir, figures_dir))
