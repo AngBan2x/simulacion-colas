@@ -2,7 +2,7 @@
 
 \subsection{Motor de eventos discretos}
 
-El núcleo se implementó en Python con la biblioteca estándar, sin SimPy. El
+El núcleo se implementó en Python con la biblioteca estándar. El
 motor mantiene una cola de eventos con \texttt{heapq} y procesa cada evento en
 orden de tiempo; los empates se resuelven por prioridad y, finalmente, por
 secuencia FIFO. El reloj avanza al instante del siguiente evento, de modo que
